@@ -24,3 +24,5 @@ graphql_markdown-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+/guides
