@@ -15,7 +15,7 @@ defmodule GraphqlMarkdown.MultiPage do
         filename = Path.join(output_dir, "#{section}.md")
 
         case Renderer.start_link(name: section, filename: filename) do
-          {:ok, pid} ->
+          {:ok, _pid} ->
             generate_title(section, options)
             generate_section(section, Map.get(schema_details, String.to_atom(section)))
             Renderer.save(String.to_atom(section))
@@ -96,7 +96,7 @@ defmodule GraphqlMarkdown.MultiPage do
       type_details =
         field["type"]
         |> Schema.full_field_type()
-        |> MarkdownHelpers.anchor(reference_for_kind(field))
+        |> MarkdownHelpers.link(reference_for_kind(field))
 
       default_value = MarkdownHelpers.default_value(field["defaultValue"])
 
@@ -119,13 +119,13 @@ defmodule GraphqlMarkdown.MultiPage do
   defp reference_for_kind(field) do
     case Schema.field_kind(field["type"]) do
       "OBJECT" ->
-        "objects.md#" <> Schema.field_type(field["type"])
+        "objects.html#" <> Schema.field_type(field["type"])
 
       "INPUT" ->
-        "inputs.md#" <> Schema.field_type(field["type"])
+        "inputs.html#" <> Schema.field_type(field["type"])
 
       _ ->
-        "scalars.md#" <> Schema.field_type(field["type"])
+        "scalars.html#" <> Schema.field_type(field["type"])
     end
   end
 
