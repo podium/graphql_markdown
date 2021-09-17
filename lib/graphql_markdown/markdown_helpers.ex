@@ -2,19 +2,23 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
   @moduledoc """
   A set of helpers to generate proper markdown easily
   """
+  def header(text, level, capitalize \\ false)
+
   def header(text, level, true) do
     header(String.capitalize(text), level, false)
   end
 
-  def header(text, level, _capitalize \\ false) do
+  def header(text, level, _capitalize) do
     "#{String.duplicate("#", level)} #{text}"
   end
+
+  def list(text, level, capitalize \\ false)
 
   def list(text, level, true) do
     list(String.capitalize(text), level, false)
   end
 
-  def list(text, level, _capitalize \\ false) do
+  def list(text, level, _capitalize) do
     "#{String.duplicate(" ", level * 2)}* #{text}"
   end
 
