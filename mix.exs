@@ -51,7 +51,10 @@ defmodule GraphqlMarkdown.MixProject do
     [
       maintainers: ["Emmanuel Pinault"],
       licenses: ["MIT"],
-      links: %{"GitHub" => @project_url, "Changelog" => "#{@project_url}/master/CHANGELOG.md"}
+      links: %{
+        "GitHub" => @project_url,
+        "Changelog" => "#{@project_url}/blob/master/CHANGELOG.md"
+      }
     ]
   end
 end
