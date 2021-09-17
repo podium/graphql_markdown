@@ -121,8 +121,11 @@ defmodule GraphqlMarkdown.MultiPage do
       "OBJECT" ->
         "objects.html#" <> Schema.field_type(field["type"])
 
-      "INPUT" ->
+      "INPUT_OBJECT" ->
         "inputs.html#" <> Schema.field_type(field["type"])
+
+      "ENUM" ->
+        "enums.html#" <> Schema.field_type(field["type"])
 
       _ ->
         "scalars.html#" <> Schema.field_type(field["type"])
