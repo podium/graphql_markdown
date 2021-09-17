@@ -136,6 +136,7 @@ defmodule GraphqlMarkdown.SinglePage do
     input_kind = Schema.input_kind()
     scalar_kind = Schema.scalar_kind()
     enum_kind = Schema.enum_kind()
+    union_kind = Schema.union_kind()
 
     Enum.each(details, fn detail ->
       render(MarkdownHelpers.header(detail["name"], 3))
@@ -147,10 +148,11 @@ defmodule GraphqlMarkdown.SinglePage do
           render(MarkdownHelpers.table([field: {}, description: {}], data))
 
         ^scalar_kind ->
-          render(detail["description"])
+          generate_description(detail["description"])
 
         ^enum_kind ->
-          render(detail["description"])
+          generate_description(detail["description"])
+
           render_newline()
 
           data =
@@ -160,6 +162,15 @@ defmodule GraphqlMarkdown.SinglePage do
 
           render(MarkdownHelpers.table([value: {}, description: {}], data))
 
+        ^union_kind ->
+          generate_description(detail["description"])
+
+          render_newline()
+          render("Possible types:")
+          render_newline()
+
+          generate_unions_possible_types(detail["possibleTypes"])
+
         _ ->
           data = generate_data(detail["fields"])
           render(MarkdownHelpers.table([field: {}, description: {}], data))
@@ -167,6 +178,22 @@ defmodule GraphqlMarkdown.SinglePage do
 
       render_newline()
     end)
+  end
+
+  defp generate_unions_possible_types(types) do
+    Enum.each(types, fn possible_type ->
+      render(
+        possible_type["name"]
+        |> MarkdownHelpers.link("objects.html##{String.downcase(possible_type["name"])}")
+        |> MarkdownHelpers.list(1)
+      )
+    end)
+  end
+
+  defp generate_description(description) do
+    if description do
+      render(description)
+    end
   end
 
   defp generate_data(fields) do

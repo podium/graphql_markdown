@@ -1003,6 +1003,27 @@
         {
           "description": null,
           "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "UNION",
+          "name": "OauthPreauthorizeResult",
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "OauthPreauthorizeData",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "OauthRedirect",
+              "ofType": null
+            }
+          ]
+        },
+        {
+          "description": null,
+          "enumValues": null,
           "fields": [
             {
               "args": [

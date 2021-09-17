@@ -57,6 +57,7 @@ defmodule GraphqlMarkdown.MultiPage do
     input_kind = Schema.input_kind()
     scalar_kind = Schema.scalar_kind()
     enum_kind = Schema.enum_kind()
+    union_kind = Schema.union_kind()
 
     Enum.each(details, fn detail ->
       render(type, MarkdownHelpers.header(detail["name"], 2))
@@ -69,10 +70,11 @@ defmodule GraphqlMarkdown.MultiPage do
           render(type, MarkdownHelpers.table([field: {}, description: {}], data))
 
         ^scalar_kind ->
-          render(type, detail["description"])
+          generate_description(type, detail["description"])
 
         ^enum_kind ->
-          render(type, detail["description"])
+          generate_description(type, detail["description"])
+
           render_newline(type)
 
           data =
@@ -82,6 +84,14 @@ defmodule GraphqlMarkdown.MultiPage do
 
           render(type, MarkdownHelpers.table([value: {}, description: {}], data))
 
+        ^union_kind ->
+          generate_description(type, detail["description"])
+
+          render_newline(type)
+          render(type, "Possible types:")
+          render_newline(type)
+          generate_unions_possible_types(type, detail["possibleTypes"])
+
         _ ->
           data = generate_data(detail["fields"])
           render(type, MarkdownHelpers.table([field: {}, description: {}], data))
@@ -89,6 +99,23 @@ defmodule GraphqlMarkdown.MultiPage do
 
       render_newline(type)
     end)
+  end
+
+  defp generate_unions_possible_types(section, types) do
+    Enum.each(types, fn possible_type ->
+      render(
+        section,
+        possible_type["name"]
+        |> MarkdownHelpers.link("objects.html##{String.downcase(possible_type["name"])}")
+        |> MarkdownHelpers.list(1)
+      )
+    end)
+  end
+
+  defp generate_description(section, description) do
+    if description do
+      render(section, description)
+    end
   end
 
   defp generate_data(fields) do
@@ -103,7 +130,7 @@ defmodule GraphqlMarkdown.MultiPage do
       description =
         case default_value do
           "" ->
-            field["description"]
+            "#{field["description"]}"
 
           _ ->
             Enum.join([field["description"], default_value], ".")

@@ -10,7 +10,7 @@ by adding `graphql_markdown` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:graphql_markdown, "~> 0.1.1"}
+    {:graphql_markdown, "~> 0.1.2"}
   ]
 end
 ```
