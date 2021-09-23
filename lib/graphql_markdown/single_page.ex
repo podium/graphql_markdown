@@ -123,6 +123,17 @@ defmodule GraphqlMarkdown.SinglePage do
       render(MarkdownHelpers.header(field["name"], 3))
       render_newline()
 
+      type_details =
+        field["type"]
+        |> Schema.field_type()
+        |> MarkdownHelpers.anchor()
+
+      render("Type: #{type_details}")
+      render_newline()
+
+      generate_description(field["description"])
+      render_newline()
+
       data = generate_data(field["args"])
       render(MarkdownHelpers.table([field: {}, description: {}], data))
       render_newline()

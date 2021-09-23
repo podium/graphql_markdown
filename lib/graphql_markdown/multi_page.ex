@@ -47,6 +47,17 @@ defmodule GraphqlMarkdown.MultiPage do
       render(type, MarkdownHelpers.header(field["name"], 2))
       render_newline(type)
 
+      type_details =
+        field["type"]
+        |> Schema.field_type()
+        |> MarkdownHelpers.link(reference_for_kind(field))
+
+      render(type, "Type: #{type_details}")
+      render_newline(type)
+
+      generate_description(type, field["description"])
+      render_newline(type)
+
       data = generate_data(field["args"])
       render(type, MarkdownHelpers.table([field: {}, description: {}], data))
       render_newline(type)

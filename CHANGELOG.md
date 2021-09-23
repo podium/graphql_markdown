@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3 - 2021-09-23
+
+### Fixed
+
+* Add missing type and description for mutations and queries
+
 ## 0.1.2 - 2021-09-17
 
 ### Fixed
