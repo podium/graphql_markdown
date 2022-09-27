@@ -8,21 +8,14 @@ defmodule GraphqlMarkdown.MixProject do
       app: :graphql_markdown,
       name: "Graphql Markdown",
       description: "A simple GraphQL JSON Schema to  Markdown generator",
-      version: "0.1.3",
+      version: "0.1.4",
       elixir: "~> 1.11",
       source_url: @project_url,
       homepage_url: @project_url,
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: docs(),
-      package: package(),
-      test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.post": :test,
-        "coveralls.html": :test
-      ]
+      package: package()
     ]
   end
 
@@ -35,7 +28,6 @@ defmodule GraphqlMarkdown.MixProject do
   defp deps do
     [
       {:credo, "~> 1.5", only: [:dev, :test], runtime: false},
-      {:excoveralls, "~> 0.14.2", only: :test},
       {:ex_doc, "~> 0.25", only: [:dev, :test], runtime: false},
       {:jason, "~> 1.2"}
     ]
