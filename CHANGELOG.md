@@ -1,9 +1,5 @@
 # Changelog
 
-## 0.1.4 - 2022-09-27
-
-* Update packages
-
 ## 0.1.3 - 2021-09-23
 
 ### Fixed
