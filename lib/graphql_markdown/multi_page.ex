@@ -50,7 +50,7 @@ defmodule GraphqlMarkdown.MultiPage do
       type_details =
         field["type"]
         |> Schema.field_type()
-        |> MarkdownHelpers.link(reference_for_kind(field))
+        |> MarkdownHelpers.link(String.downcase(reference_for_kind(field)))
 
       render(type, "Type: #{type_details}")
       render_newline(type)

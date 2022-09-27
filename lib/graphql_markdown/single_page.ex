@@ -54,22 +54,6 @@ defmodule GraphqlMarkdown.SinglePage do
 
   defp print_toc_type(type_label, %{"fields" => fields} = _types)
        when type_label in ["queries", "mutations"] do
-    # render(
-    #   type_label
-    #   |> String.capitalize()
-    #   |> MarkdownHelpers.anchor()
-    #   |> MarkdownHelpers.list(1)
-    # )
-
-    # Enum.each(fields, fn field ->
-    #   render(
-    #     field["name"]
-    #     |> String.capitalize()
-    #     |> MarkdownHelpers.anchor()
-    #     |> MarkdownHelpers.list(2)
-    #   )
-    # end)
-
     print_toc_type(type_label, fields)
   end
 

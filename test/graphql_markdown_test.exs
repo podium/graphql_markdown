@@ -1,5 +1,5 @@
 defmodule GraphqlMarkdownTest do
-  use ExUnit.Case, async: true
+  use ExUnit.Case
   doctest GraphqlMarkdown
 
   setup do
@@ -53,6 +53,29 @@ defmodule GraphqlMarkdownTest do
                   "guides/interfaces.md",
                   "guides/unions.md"
                 ]}
+    end
+
+    test "convert schema to markdown with correct type link" do
+      assert GraphqlMarkdown.generate(
+               schema: "test/fixtures/broken_link.json",
+               output_dir: "guides",
+               multi_page: true
+             ) ==
+               {:ok,
+                [
+                  "guides/queries.md",
+                  "guides/mutations.md",
+                  "guides/objects.md",
+                  "guides/inputs.md",
+                  "guides/enums.md",
+                  "guides/scalars.md",
+                  "guides/interfaces.md",
+                  "guides/unions.md"
+                ]}
+
+      {:ok, buffer} = File.read("guides/queries.md")
+
+      assert buffer =~ ~r/\[TrialAccount\]\(objects.html#trialaccount\)/
     end
 
     test "fails to load the file" do
