@@ -17,8 +17,8 @@ defmodule GraphqlMarkdown.MultiPage do
         case Renderer.start_link(name: section, filename: filename) do
           {:ok, _pid} ->
             generate_title(section, options)
-            generate_section(section, Map.get(schema_details, String.to_atom(section)))
-            Renderer.save(String.to_atom(section))
+            generate_section(section, Map.get(schema_details, String.to_existing_atom(section)))
+            Renderer.save(String.to_existing_atom(section))
             filename
 
           _ ->
@@ -50,7 +50,7 @@ defmodule GraphqlMarkdown.MultiPage do
       type_details =
         field["type"]
         |> Schema.field_type()
-        |> MarkdownHelpers.link(reference_for_kind(field))
+        |> MarkdownHelpers.link(String.downcase(reference_for_kind(field)))
 
       render(type, "Type: #{type_details}")
       render_newline(type)
@@ -171,10 +171,10 @@ defmodule GraphqlMarkdown.MultiPage do
   end
 
   defp render(type, text) do
-    Renderer.render(text, String.to_atom(type))
+    Renderer.render(text, String.to_existing_atom(type))
   end
 
   defp render_newline(type) do
-    Renderer.render_newline(String.to_atom(type))
+    Renderer.render_newline(String.to_existing_atom(type))
   end
 end
