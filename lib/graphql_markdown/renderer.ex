@@ -8,7 +8,7 @@ defmodule GraphqlMarkdown.Renderer do
     name = Keyword.get(options, :name, :default_renderer)
 
     # We now start the GenServer with a `name` option.
-    GenServer.start_link(__MODULE__, options, name: String.to_atom(name))
+    GenServer.start_link(__MODULE__, options, name: String.to_existing_atom(name))
   end
 
   def render(message, renderer \\ :default_renderer) do

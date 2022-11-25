@@ -30,7 +30,6 @@ defmodule Mix.Tasks.GraphqlGenMarkdown do
 
   """
 
-  @shortdoc "Convert a GraphQL JSON schema to markdown files"
   use Mix.Task
 
   @args [
