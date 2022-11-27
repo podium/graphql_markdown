@@ -15,7 +15,8 @@ defmodule GraphqlMarkdown.MixProject do
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       docs: docs(),
-      package: package()
+      package: package(),
+      test_coverage: [summary: [threshold: 85]]
     ]
   end
 
