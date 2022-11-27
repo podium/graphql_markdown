@@ -35,10 +35,8 @@ defmodule GraphqlMarkdown.MixProject do
 
   defp docs do
     [
-      main: "Graphql Markdown",
-      extras:
-        ["README.md", "CHANGELOG.md"] ++
-          Path.wildcard("guides/*.md")
+      main: "overview",
+      extras: ["guides/overview.md", "CHANGELOG.md"]
     ]
   end
 

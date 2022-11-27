@@ -1,5 +1,7 @@
 # GraphqlMarkdown
 
+[![Build Status](https://github.com/podium/graphql_markdown/workflows/ci.yml/badge.svg)](https://github.com/podium/graphql_markdown/actions/workflows/ci.yml) [![Hex.pm](https://img.shields.io/hexpm/v/graphql_markdown.svg)](https://hex.pm/packages/graphql_markdown) [![Documentation](https://img.shields.io/badge/documentation-gray)](https://hexdocs.pm/graphql_markdown)
+
 Converts a JSON Graphql Schema to Markdown
 
 ## Installation
@@ -40,7 +42,7 @@ mix graphql_gen_markdown -f ./schema.json
 ```
 it will generate the following file in your current folder:
 
-./graphql_schema.md
+- ./graphql_schema.md
 
 You can change the default title for the single page with `-t` option.
 
@@ -54,26 +56,22 @@ mix graphql_gen_markdown -f ./schema.json -m
 
 it will generate the following files in your current folder:
 
-  ./queries.md
-  ./mutations.md
-  ./objects.md
-  ./inputs.md
-  ./enums.md
-  ./scalars.md
-  ./interfaces.md
-  ./unions.md
+-  ./queries.md
+-  ./mutations.md
+-  ./objects.md
+-  ./inputs.md
+-  ./enums.md
+-  ./scalars.md
+-  ./interfaces.md
+-  ./unions.md
 
 ## Documentation
 
-Documentation is [available on Hexdocs](https://hexdocs.pm/grapqhl_markdown/)
+Documentation is [available on Hexdocs](https://hexdocs.pm/grapqhl_markdown)
 
 ## Contributing
 
-1. [Fork it!](http://github.com/rrrene/credo/fork)
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+See [CONTRIBUTING.md](https://github.com/podium/graphql_markdown/blob/master/CONTRIBUTING.md)
 
 ## Author
 
@@ -81,5 +79,5 @@ Emmanuel Pinault (@epinault)
 
 ## License
 
-<NAME> is released under the MIT License. See the LICENSE file for further
+Graphql Markdown is released under the MIT License. See the LICENSE file for further
 details.
