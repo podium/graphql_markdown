@@ -29,8 +29,6 @@ defmodule Mix.Tasks.GraphqlGenMarkdown do
     mix grapqhl.gen.markdown -f myschema.json -m
 
   """
-
-  @shortdoc "Convert a GraphQL JSON schema to markdown files"
   use Mix.Task
 
   @args [

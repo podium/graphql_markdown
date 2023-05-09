@@ -95,7 +95,11 @@ defmodule GraphqlMarkdown.SinglePage do
     Enum.each(
       ["queries", "mutations", "objects", "inputs", "enums", "scalars", "interfaces", "unions"],
       fn section_name ->
-        generate_section(section_name, Map.get(schema_details, String.to_atom(section_name)))
+        generate_section(
+          section_name,
+          Map.get(schema_details, String.to_existing_atom(section_name))
+        )
+
         render_newline()
       end
     )

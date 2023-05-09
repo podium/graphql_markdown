@@ -19,9 +19,8 @@ defmodule GraphqlMarkdown do
   end
 
   defp load_json(options) do
-    with {:ok, body} <- File.read(options[:schema]),
-         {:ok, json} <- Jason.decode(body) do
-      {:ok, json}
+    with {:ok, body} <- File.read(options[:schema]) do
+      Jason.decode(body)
     end
   end
 
