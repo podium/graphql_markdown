@@ -2,6 +2,19 @@ defmodule GraphqlMarkdown.Schema do
   @moduledoc """
   Internal Schema representation of Graphql section we care about
   """
+  @typedoc """
+   test
+  """
+  @type t :: %__MODULE__{
+          mutations: list(map()),
+          queries: list(map()),
+          inputs: list(map()),
+          objects: list(map()),
+          enums: list(map()),
+          scalars: list(map()),
+          interfaces: list(map()),
+          unions: list(map())
+        }
   defstruct [:mutations, :queries, :inputs, :objects, :enums, :scalars, :interfaces, :unions]
 
   @object_kind "OBJECT"

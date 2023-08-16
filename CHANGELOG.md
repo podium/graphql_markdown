@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.1.5 - 2023-08-16
+
+### Changed
+
+* Added more documentation
+* Fix typespec
+
+## 0.1.4 - 2022-09-27
+
+### Changed
+
+* Update dependencies
 ## 0.1.3 - 2021-09-23
 
 ### Fixed

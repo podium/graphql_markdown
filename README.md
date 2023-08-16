@@ -63,6 +63,43 @@ it will generate the following files in your current folder:
   ./interfaces.md
   ./unions.md
 
+## Ingrate with ExDoc and Absinthe
+
+You can easily automate the process with ExDoc by adding the following to your `mix.exs` file:
+
+```elixir
+defmodule Azeroth.MixProject do
+  use Mix.Project
+
+  # this is needed because the file are generated but if you run mix docs, Mix will check the existance of files first. so have to work around that
+  @graphql_files [
+    "guides/graphql/enums.md",
+    "guides/graphql/inputs.md",
+    "guides/graphql/interfaces.md",
+    "guides/graphql/mutations.md",
+    "guides/graphql/objects.md",
+    "guides/graphql/queries.md",
+    "guides/graphql/scalars.md",
+    "guides/graphql/unions.md"
+  ]
+  ...
+
+  defp aliases do
+  [
+    docs: [
+      "absinthe.schema.json",
+      "graphql_gen_markdown -f schema.json -o guides/graphql -m",
+      "docs"
+    ],...
+  ]
+```
+
+Make sure the absinthe schema is specified or generated with that name. Or add to your config.exs:
+
+```
+config :absinthe, schema: YouApp.GraphQL.Schema
+```
+
 ## Documentation
 
 Documentation is [available on Hexdocs](https://hexdocs.pm/grapqhl_markdown/)
@@ -81,5 +118,4 @@ Emmanuel Pinault (@epinault)
 
 ## License
 
-<NAME> is released under the MIT License. See the LICENSE file for further
-details.
+GraphqlMarkdown is released under the MIT License. See the LICENSE file for further details.

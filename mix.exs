@@ -2,13 +2,14 @@ defmodule GraphqlMarkdown.MixProject do
   use Mix.Project
 
   @project_url "https://github.com/podium/graphql_markdown"
+  @version "0.1.5"
 
   def project do
     [
       app: :graphql_markdown,
       name: "Graphql Markdown",
       description: "A simple GraphQL JSON Schema to  Markdown generator",
-      version: "0.1.3",
+      version: @version,
       elixir: "~> 1.11",
       source_url: @project_url,
       homepage_url: @project_url,
@@ -36,7 +37,14 @@ defmodule GraphqlMarkdown.MixProject do
 
   defp docs do
     [
-      main: "GraphqlMarkdown"
+      main: "readme",
+      extras: [
+        {:"README.md", title: "Readme"},
+        "CHANGELOG.md"
+      ],
+      source_url: @project_url,
+      source_ref: "v#{@version}",
+      homepage_url: @project_url
     ]
   end
 
