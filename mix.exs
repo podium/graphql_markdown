@@ -36,7 +36,7 @@ defmodule GraphqlMarkdown.MixProject do
 
   defp docs do
     [
-      main: "Graphql Markdown"
+      main: "GraphqlMarkdown"
     ]
   end
 
