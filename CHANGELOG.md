@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.4 - 2023-08-16
+
+### Changed
+
+* Added documentation
 ## 0.1.3 - 2021-09-23
 
 ### Fixed
