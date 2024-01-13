@@ -99,8 +99,8 @@ defmodule GraphqlMarkdown.Schema do
     Enum.filter(schema["types"], fn type -> !String.starts_with?(type["name"], "__") end)
   end
 
-  def schema_from_json(%{"data" => %{"__schema" => schema_defintion}}) do
-    {:ok, schema_defintion}
+  def schema_from_json(%{"data" => %{"__schema" => schema_definition}}) do
+    {:ok, schema_definition}
   end
 
   def schema_from_json(_) do

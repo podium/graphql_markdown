@@ -11,7 +11,7 @@ defmodule Mix.Tasks.GraphqlGenMarkdown do
 
   valid override args:
     -f, --schema            Path to the schema file
-    -o, --outpout-dir       Where to output the files. Default: [Current Directory]
+    -o, --output-dir        Where to output the files. Default: [Current Directory]
     -m, --multi-page        Generate each type in a separate file. Default: [single page format]
     -t, --title             Specify the page title for the generated file (Applies to single file only)
     --no-toc                Do not generate the table of content (Applies to single file only)

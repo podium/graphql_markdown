@@ -71,7 +71,7 @@ You can easily automate the process with ExDoc by adding the following to your `
 defmodule Azeroth.MixProject do
   use Mix.Project
 
-  # this is needed because the file are generated but if you run mix docs, Mix will check the existance of files first. so have to work around that
+  # this is needed because the file are generated but if you run mix docs, Mix will check the existence of files first. so have to work around that
   @graphql_files [
     "guides/graphql/enums.md",
     "guides/graphql/inputs.md",
