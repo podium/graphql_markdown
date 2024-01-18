@@ -17,10 +17,15 @@ end
 
 And run:
 
-    $ mix deps.get
+```shell
+mix deps.get
+```
 
-    # will create a single file called graphql_schema.md in the current dir
-    $ mix graphql_gen_markdown -f ./schema.json
+Generate a single file called `graphql_schema.md` in the current dir:
+
+```shell
+mix graphql_gen_markdown -f ./schema.json
+```
 
 
 Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
@@ -96,7 +101,7 @@ defmodule Azeroth.MixProject do
 
 Make sure the absinthe schema is specified or generated with that name. Or add to your config.exs:
 
-```
+```elixir
 config :absinthe, schema: YouApp.GraphQL.Schema
 ```
 
@@ -118,4 +123,4 @@ Emmanuel Pinault (@epinault)
 
 ## License
 
-GraphqlMarkdown is released under the MIT License. See the LICENSE file for further details.
+GraphqlMarkdown is released under the MIT License. See the [LICENSE.md](LICENSE.md) file for further details.
