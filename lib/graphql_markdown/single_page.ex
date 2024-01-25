@@ -6,7 +6,7 @@ defmodule GraphqlMarkdown.SinglePage do
   alias GraphqlMarkdown.Renderer
   alias GraphqlMarkdown.Schema
 
-  @spec render_schema(GraphqlMarkdown.Schema.t(), keyword) :: :ok
+  @spec render_schema(GraphqlMarkdown.Schema.t(), keyword) :: :ok | {:error, :renderer_error}
   def render_schema(schema_details, options) do
     dir = Keyword.get(options, :output_dir, ".")
     filename = Path.join(dir, "graphql_schema.md")
@@ -47,8 +47,6 @@ defmodule GraphqlMarkdown.SinglePage do
     print_toc_type("interfaces", schema_details.interfaces)
     print_toc_type("unions", schema_details.unions)
   end
-
-  defp print_toc_type(nil, _), do: ""
 
   defp print_toc_type(_, nil), do: ""
 
