@@ -52,12 +52,11 @@ defmodule GraphqlMarkdown.Renderer do
   def handle_call(:save, _from, %{fileio: fileio} = state) do
     case fileio do
       :stdio ->
-        :ok
+        {:reply, :ok, %{state | fileio: nil}}
 
       _ ->
         File.close(fileio)
+        {:stop, :normal, :ok, %{state | fileio: nil}}
     end
-
-    {:reply, :ok, %{state | fileio: nil}}
   end
 end

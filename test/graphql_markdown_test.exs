@@ -10,6 +10,10 @@ defmodule GraphqlMarkdownTest do
     test "convert schema to markdown as single page" do
       assert GraphqlMarkdown.generate(schema: "test/fixtures/schema.json", output_dir: "guides") ==
                {:ok, ["guides/graphql_schema.md"]}
+
+      # assert that it can generate multiple times
+      assert GraphqlMarkdown.generate(schema: "test/fixtures/schema.json", output_dir: "guides") ==
+               {:ok, ["guides/graphql_schema.md"]}
     end
 
     test "convert schema to markdown as single page with no TOC" do
@@ -37,6 +41,24 @@ defmodule GraphqlMarkdownTest do
     end
 
     test "convert schema to markdown as multipage" do
+      assert GraphqlMarkdown.generate(
+               schema: "test/fixtures/schema.json",
+               output_dir: "guides",
+               multi_page: true
+             ) ==
+               {:ok,
+                [
+                  "guides/queries.md",
+                  "guides/mutations.md",
+                  "guides/objects.md",
+                  "guides/inputs.md",
+                  "guides/enums.md",
+                  "guides/scalars.md",
+                  "guides/interfaces.md",
+                  "guides/unions.md"
+                ]}
+
+      # assert that it can generate multiple times
       assert GraphqlMarkdown.generate(
                schema: "test/fixtures/schema.json",
                output_dir: "guides",
