@@ -7,5 +7,5 @@
       - `mix test` in the root folder
       - `mix credo` in the root folder
   5. Commit, push code
-  6. Publish `uinta` packages and docs
+  6. Publish `graphql_markdown` packages and docs
 

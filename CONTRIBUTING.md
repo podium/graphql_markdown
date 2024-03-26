@@ -13,7 +13,7 @@ Use the issues tracker for:
 
 We do our best to keep the issue tracker tidy and organized, making it useful
 for everyone. For example, we classify open issues per perceived difficulty,
-making it easier for developers to [contribute to Uinta](#pull-requests).
+making it easier for developers to [contribute to Graphql Markdown](#pull-requests).
 
 ## Bug reports
 
@@ -33,7 +33,7 @@ Guidelines for bug reports:
    case.
 
 Please try to be as detailed as possible in your report. Include information about
-your Operating System, as well as your Erlang, Elixir and Uinta versions. Please provide steps to
+your Operating System, as well as your Erlang, Elixir and Graphql Markdown versions. Please provide steps to
 reproduce the issue as well as the outcome you were expecting! All these details
 will help developers to fix any potential bugs.
 
@@ -121,7 +121,7 @@ in order to craft an excellent pull request:
    git clone https://github.com/<your-username>/graphql_markdown
 
    # Navigate to the newly cloned directory
-   cd uinta
+   cd graphql_markdown
 
    # Assign the original repo to a remote called "upstream"
    git remote add upstream https://github.com/podium/graphql_markdown
