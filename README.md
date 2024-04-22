@@ -68,7 +68,7 @@ it will generate the following files in your current folder:
   ./interfaces.md
   ./unions.md
 
-## Ingrate with ExDoc and Absinthe
+## Integrate with ExDoc and Absinthe
 
 You can easily automate the process with ExDoc by adding the following to your `mix.exs` file:
 
