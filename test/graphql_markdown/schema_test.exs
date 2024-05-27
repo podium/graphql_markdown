@@ -4,7 +4,7 @@ defmodule GraphqlMarkdown.SchemaTest do
   doctest GraphqlMarkdown
 
   @schema_test %{
-    "mutationType" => %{"name" => "someMutationName"},
+    "mutationType" => %{"name" => "RootMutationType"},
     "queryType" => %{"name" => "someQueryName"},
     "types" => [
       %{
@@ -28,7 +28,7 @@ defmodule GraphqlMarkdown.SchemaTest do
         "inputFields" => nil,
         "interfaces" => [],
         "kind" => "OBJECT",
-        "name" => "someMutationName",
+        "name" => "RootMutationType",
         "possibleTypes" => nil
       },
       %{
@@ -44,7 +44,7 @@ defmodule GraphqlMarkdown.SchemaTest do
 
   describe "#mutation_type" do
     test "get the mutation type " do
-      assert Schema.mutation_type(@schema_test) == "someMutationName"
+      assert Schema.mutation_type(@schema_test) == "RootMutationType"
     end
   end
 
@@ -82,7 +82,7 @@ defmodule GraphqlMarkdown.SchemaTest do
                  "inputFields" => nil,
                  "interfaces" => [],
                  "kind" => "OBJECT",
-                 "name" => "someMutationName",
+                 "name" => "RootMutationType",
                  "possibleTypes" => nil
                },
                %{
@@ -99,14 +99,14 @@ defmodule GraphqlMarkdown.SchemaTest do
 
   describe "#find_and_sort_type" do
     test "find mutation types" do
-      assert Schema.find_and_sort_type(Schema.types(@schema_test), "name", "someMutationName") ==
+      assert Schema.find_and_sort_type(Schema.types(@schema_test), "name", "RootMutationType") ==
                [
                  %{
                    "fields" => [],
                    "inputFields" => nil,
                    "interfaces" => [],
                    "kind" => "OBJECT",
-                   "name" => "someMutationName",
+                   "name" => "RootMutationType",
                    "possibleTypes" => nil
                  }
                ]
@@ -132,7 +132,7 @@ defmodule GraphqlMarkdown.SchemaTest do
                  "inputFields" => nil,
                  "interfaces" => [],
                  "kind" => "OBJECT",
-                 "name" => "otherType",
+                 "name" => "RootMutationType",
                  "possibleTypes" => nil
                },
                %{
@@ -140,7 +140,7 @@ defmodule GraphqlMarkdown.SchemaTest do
                  "inputFields" => nil,
                  "interfaces" => [],
                  "kind" => "OBJECT",
-                 "name" => "someMutationName",
+                 "name" => "otherType",
                  "possibleTypes" => nil
                },
                %{
