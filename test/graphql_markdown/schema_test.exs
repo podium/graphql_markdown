@@ -3,54 +3,15 @@ defmodule GraphqlMarkdown.SchemaTest do
   alias GraphqlMarkdown.Schema
   doctest GraphqlMarkdown
 
-  @schema_test %{
-    "mutationType" => %{"name" => "RootMutationType"},
-    "queryType" => %{"name" => "someQueryName"},
-    "types" => [
-      %{
-        "fields" => [],
-        "inputFields" => nil,
-        "interfaces" => [],
-        "kind" => "OBJECT",
-        "name" => "__EnumValue",
-        "possibleTypes" => nil
-      },
-      %{
-        "fields" => [],
-        "inputFields" => nil,
-        "interfaces" => [],
-        "kind" => "OBJECT",
-        "name" => "someQueryName",
-        "possibleTypes" => nil
-      },
-      %{
-        "fields" => [],
-        "inputFields" => nil,
-        "interfaces" => [],
-        "kind" => "OBJECT",
-        "name" => "RootMutationType",
-        "possibleTypes" => nil
-      },
-      %{
-        "fields" => [],
-        "inputFields" => nil,
-        "interfaces" => [],
-        "kind" => "OBJECT",
-        "name" => "otherType",
-        "possibleTypes" => nil
-      }
-    ]
-  }
-
   describe "#mutation_type" do
     test "get the mutation type " do
-      assert Schema.mutation_type(@schema_test) == "RootMutationType"
+      assert Schema.mutation_type(schema_test()) == "RootMutationType"
     end
   end
 
   describe "#query_type" do
     test "get the query type " do
-      assert Schema.query_type(@schema_test) == "someQueryName"
+      assert Schema.query_type(schema_test()) == "someQueryName"
     end
   end
 
@@ -68,7 +29,7 @@ defmodule GraphqlMarkdown.SchemaTest do
 
   describe "#types" do
     test "find all types and filter __ types" do
-      assert Schema.types(@schema_test) == [
+      assert Schema.types(schema_test()) == [
                %{
                  "fields" => [],
                  "inputFields" => nil,
@@ -99,7 +60,7 @@ defmodule GraphqlMarkdown.SchemaTest do
 
   describe "#find_and_sort_type" do
     test "find mutation types" do
-      assert Schema.find_and_sort_type(Schema.types(@schema_test), "name", "RootMutationType") ==
+      assert Schema.find_and_sort_type(Schema.types(schema_test()), "name", "RootMutationType") ==
                [
                  %{
                    "fields" => [],
@@ -113,7 +74,7 @@ defmodule GraphqlMarkdown.SchemaTest do
     end
 
     test "find query types" do
-      assert Schema.find_and_sort_type(Schema.types(@schema_test), "name", "someQueryName") == [
+      assert Schema.find_and_sort_type(Schema.types(schema_test()), "name", "someQueryName") == [
                %{
                  "fields" => [],
                  "inputFields" => nil,
@@ -126,7 +87,7 @@ defmodule GraphqlMarkdown.SchemaTest do
     end
 
     test "find Object types" do
-      assert Schema.find_and_sort_type(Schema.types(@schema_test), "kind", "OBJECT") == [
+      assert Schema.find_and_sort_type(Schema.types(schema_test()), "kind", "OBJECT") == [
                %{
                  "fields" => [],
                  "inputFields" => nil,
@@ -294,4 +255,46 @@ defmodule GraphqlMarkdown.SchemaTest do
              }) == "String"
     end
   end
+
+  defp schema_test do
+    %{
+      "mutationType" => %{"name" => "RootMutationType"},
+      "queryType" => %{"name" => "someQueryName"},
+      "types" => [
+        %{
+          "fields" => [],
+          "inputFields" => nil,
+          "interfaces" => [],
+          "kind" => "OBJECT",
+          "name" => "__EnumValue",
+          "possibleTypes" => nil
+        },
+        %{
+          "fields" => [],
+          "inputFields" => nil,
+          "interfaces" => [],
+          "kind" => "OBJECT",
+          "name" => "someQueryName",
+          "possibleTypes" => nil
+        },
+        %{
+          "fields" => [],
+          "inputFields" => nil,
+          "interfaces" => [],
+          "kind" => "OBJECT",
+          "name" => "RootMutationType",
+          "possibleTypes" => nil
+        },
+        %{
+          "fields" => [],
+          "inputFields" => nil,
+          "interfaces" => [],
+          "kind" => "OBJECT",
+          "name" => "otherType",
+          "possibleTypes" => nil
+        }
+      ]
+
+    }
+   end
 end
