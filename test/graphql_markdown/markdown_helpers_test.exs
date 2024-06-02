@@ -76,6 +76,33 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
     end
   end
 
+  describe "#graphql_operation" do
+    test "Creates a GQL text block for the operation" do
+      operation_details = %{
+        arguments: [%{name: "emailOrPhone", required: true, type: "String"}],
+        operation_name: "generateLoginCode",
+        operation_type: "mutation",
+        return_type: %{
+          "kind" => "OBJECT",
+          "name" => "GenerateLoginCodeResponse",
+          "ofType" => nil
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        mutation GenerateLoginCode($emailOrPhone: String!) {
+          generateLoginCode(emailOrPhone: $emailOrPhone) {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+    end
+  end
+
   describe "#default_value" do
     test "return nothing when no default value is found as code" do
       assert MarkdownHelpers.default_value(nil) == ""

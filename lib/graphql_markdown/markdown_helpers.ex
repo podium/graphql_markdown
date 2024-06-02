@@ -79,4 +79,50 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
 
     headers <> new_line() <> data
   end
+
+  def graphql_operation(operation_details) do
+    %{operation_name: operation_name, operation_type: operation_type, arguments: args} =
+      operation_details
+
+    capitalized_operation_name = capitalize_operation_name(operation_name)
+
+    arguments_types = argument_types_string(args)
+    arguments = operation_arguments_string(args)
+
+    """
+    ```gql
+    #{operation_type} #{capitalized_operation_name}(#{arguments_types}) {
+      #{operation_name}(#{arguments}) {
+      }
+    }
+    ```
+    """
+  end
+
+  defp capitalize_operation_name(operation_name) do
+    <<first_grapheme::utf8, rest::binary>> = operation_name
+    String.capitalize(<<first_grapheme::utf8>>) <> rest
+  end
+
+  defp argument_types_string(args) do
+    args
+    |> Enum.map(fn arg ->
+      arg_type = arg.type
+      arg_name = arg.name
+
+      type_suffix =
+        if arg.required, do: "!", else: ""
+
+      "$#{arg_name}: #{arg_type}#{type_suffix}"
+    end)
+    |> Enum.join(", ")
+  end
+
+  defp operation_arguments_string(args) do
+    args
+    |> Enum.map(fn arg ->
+      "#{arg.name}: $#{arg.name}"
+    end)
+    |> Enum.join(", ")
+  end
 end
