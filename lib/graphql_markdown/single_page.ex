@@ -95,7 +95,8 @@ defmodule GraphqlMarkdown.SinglePage do
       fn section_name ->
         generate_section(
           section_name,
-          Map.get(schema_details, String.to_existing_atom(section_name))
+          Map.get(schema_details, String.to_existing_atom(section_name)),
+          schema_details
         )
 
         render_newline()
@@ -103,20 +104,20 @@ defmodule GraphqlMarkdown.SinglePage do
     )
   end
 
-  def generate_section(type, []) do
+  def generate_section(type, [], _schema_details) do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
     render("None")
   end
 
-  def generate_section(type, nil) do
+  def generate_section(type, nil, _schema_details) do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
     render("None")
   end
 
   # Handles Mutations and Queries
-  def generate_section(type, %{"fields" => fields} = _details)
+  def generate_section(type, %{"fields" => fields} = _details, _schema_details)
       when type in ["queries", "mutations"] do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
@@ -139,10 +140,17 @@ defmodule GraphqlMarkdown.SinglePage do
       data = generate_data(field["args"])
       render(MarkdownHelpers.table([field: {}, description: {}], data))
       render_newline()
+
+      type
+      |> operation_details(field)
+      |> MarkdownHelpers.graphql_operation()
+      |> render()
+
+      render_newline()
     end)
   end
 
-  def generate_section(type, details) do
+  def generate_section(type, details, _schema_details) do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
 
@@ -240,5 +248,36 @@ defmodule GraphqlMarkdown.SinglePage do
 
   defp render_newline do
     Renderer.render_newline(:single)
+  end
+
+  defp operation_details(type, field) do
+    operation_type =
+      case type do
+        "queries" -> "query"
+        "mutations" -> "mutation"
+      end
+
+    arguments = operation_arguments(field["args"])
+
+    %{
+      operation_type: operation_type,
+      operation_name: field["name"],
+      arguments: arguments,
+      return_type: field["type"]
+    }
+  end
+
+  defp operation_arguments(args) do
+    Enum.map(args, fn arg ->
+      arg_type = arg["type"]
+      type = Schema.field_type(arg_type)
+      required = arg_type["kind"] == "NON_NULL"
+
+      %{
+        name: arg["name"],
+        type: type,
+        required: required
+      }
+    end)
   end
 end
