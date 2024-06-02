@@ -129,6 +129,31 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
 
       assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
     end
+
+    test "does not include argument parentheses when there are no arguments" do
+      operation_details = %{
+        arguments: [],
+        operation_name: "currentTime",
+        operation_type: "query",
+        return_type: %{
+          "kind" => "OBJECT",
+          "name" => "CurrentTimeResponse",
+          "ofType" => nil
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        query CurrentTime {
+          currentTime {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+    end
   end
 
   describe "#default_value" do

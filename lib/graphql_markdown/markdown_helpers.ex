@@ -91,8 +91,8 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
 
     """
     ```gql
-    #{operation_type} #{capitalized_operation_name}(#{arguments_types}) {
-      #{operation_name}(#{arguments}) {
+    #{operation_type} #{capitalized_operation_name}#{arguments_types} {
+      #{operation_name}#{arguments} {
       }
     }
     ```
@@ -104,25 +104,35 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     String.capitalize(<<first_grapheme::utf8>>) <> rest
   end
 
+  defp argument_types_string([]), do: ""
+
   defp argument_types_string(args) do
-    args
-    |> Enum.map(fn arg ->
-      arg_type = arg.type
-      arg_name = arg.name
+    arg_types =
+      args
+      |> Enum.map(fn arg ->
+        arg_type = arg.type
+        arg_name = arg.name
 
-      type_suffix =
-        if arg.required, do: "!", else: ""
+        type_suffix =
+          if arg.required, do: "!", else: ""
 
-      "$#{arg_name}: #{arg_type}#{type_suffix}"
-    end)
-    |> Enum.join(", ")
+        "$#{arg_name}: #{arg_type}#{type_suffix}"
+      end)
+      |> Enum.join(", ")
+
+    "(#{arg_types})"
   end
 
+  defp operation_arguments_string([]), do: ""
+
   defp operation_arguments_string(args) do
-    args
-    |> Enum.map(fn arg ->
-      "#{arg.name}: $#{arg.name}"
-    end)
-    |> Enum.join(", ")
+    arguments_string =
+      args
+      |> Enum.map(fn arg ->
+        "#{arg.name}: $#{arg.name}"
+      end)
+      |> Enum.join(", ")
+
+    "(#{arguments_string})"
   end
 end
