@@ -77,7 +77,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
   end
 
   describe "#graphql_operation" do
-    test "Creates a GQL text block for the operation" do
+    test "creates a GQL text block for the operation" do
       operation_details = %{
         arguments: [%{name: "emailOrPhone", required: true, type: "String"}],
         operation_name: "generateLoginCode",
@@ -94,6 +94,34 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```gql
         mutation GenerateLoginCode($emailOrPhone: String!) {
           generateLoginCode(emailOrPhone: $emailOrPhone) {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+    end
+
+    test "returns comma-separated arguments and types when there is more than one argument" do
+      operation_details = %{
+        arguments: [
+          %{name: "username", required: true, type: "String"},
+          %{name: "password", required: true, type: "String"}
+        ],
+        operation_name: "login",
+        operation_type: "mutation",
+        return_type: %{
+          "kind" => "OBJECT",
+          "name" => "LoginResponse",
+          "ofType" => nil
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        mutation Login($username: String!, $password: String!) {
+          login(username: $username, password: $password) {
           }
         }
         ```
