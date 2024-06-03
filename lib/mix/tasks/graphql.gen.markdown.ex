@@ -7,7 +7,7 @@ defmodule Mix.Tasks.GraphqlGenMarkdown do
   usage
   -----
 
-  mix refresh_token.cleanup [OPTIONS]
+  mix graphql_gen_markdown [OPTIONS]
 
   valid override args:
     -f, --schema            Path to the schema file
@@ -23,13 +23,13 @@ defmodule Mix.Tasks.GraphqlGenMarkdown do
   1. Convert the GraphQL JSON schema to a single markdown file
 
   ```elixir
-  mix grapqhl.gen.markdown -f myschema.json
+  mix graphql_gen_markdown -f myschema.json
   ```
 
   2. Convert the GraphQL JSON schema to a multiple markdown file
 
   ```elixir
-  mix grapqhl.gen.markdown -f myschema.json -m
+  mix graphql_gen_markdown -f myschema.json -m
   ```
 
   """

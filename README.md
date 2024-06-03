@@ -107,7 +107,7 @@ config :absinthe, schema: YouApp.GraphQL.Schema
 
 ## Documentation
 
-Documentation is [available on Hexdocs](https://hexdocs.pm/grapqhl_markdown/)
+Documentation is [available on Hexdocs](https://hexdocs.pm/graphql_markdown/)
 
 ## Contributing
 
