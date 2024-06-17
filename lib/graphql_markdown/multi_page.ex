@@ -3,6 +3,7 @@ defmodule GraphqlMarkdown.MultiPage do
   Multi page generator from Graphql to Markdown
   """
   alias GraphqlMarkdown.MarkdownHelpers
+  alias GraphqlMarkdown.OperationDetailsHelpers
   alias GraphqlMarkdown.Renderer
   alias GraphqlMarkdown.Schema
 
@@ -17,7 +18,13 @@ defmodule GraphqlMarkdown.MultiPage do
         case Renderer.start_link(name: section, filename: filename) do
           {:ok, _pid} ->
             generate_title(section, options)
-            generate_section(section, Map.get(schema_details, String.to_existing_atom(section)))
+
+            generate_section(
+              section,
+              Map.get(schema_details, String.to_existing_atom(section)),
+              schema_details
+            )
+
             Renderer.save(String.to_existing_atom(section))
             filename
 
@@ -33,15 +40,15 @@ defmodule GraphqlMarkdown.MultiPage do
     render_newline(type)
   end
 
-  def generate_section(type, []) do
+  def generate_section(type, [], _schema_details) do
     render(type, "None")
   end
 
-  def generate_section(type, nil) do
+  def generate_section(type, nil, _schema_details) do
     render(type, "None")
   end
 
-  def generate_section(type, %{"fields" => fields} = _details)
+  def generate_section(type, %{"fields" => fields} = _details, schema_details)
       when type in ["queries", "mutations"] do
     Enum.each(fields, fn field ->
       render(type, MarkdownHelpers.header(field["name"], 2))
@@ -64,7 +71,7 @@ defmodule GraphqlMarkdown.MultiPage do
 
       gql_code_markdown =
         type
-        |> operation_details(field)
+        |> OperationDetailsHelpers.generate_operation_details(field, schema_details)
         |> MarkdownHelpers.graphql_operation()
 
       render(type, gql_code_markdown)
@@ -73,7 +80,7 @@ defmodule GraphqlMarkdown.MultiPage do
     end)
   end
 
-  def generate_section(type, details) do
+  def generate_section(type, details, _schema_details) do
     input_kind = Schema.input_kind()
     scalar_kind = Schema.scalar_kind()
     enum_kind = Schema.enum_kind()
@@ -185,36 +192,5 @@ defmodule GraphqlMarkdown.MultiPage do
 
   defp render_newline(type) do
     Renderer.render_newline(String.to_existing_atom(type))
-  end
-
-  defp operation_details(type, field) do
-    operation_type =
-      case type do
-        "queries" -> "query"
-        "mutations" -> "mutation"
-      end
-
-    arguments = operation_arguments(field["args"])
-
-    %{
-      operation_type: operation_type,
-      operation_name: field["name"],
-      arguments: arguments,
-      return_type: field["type"]
-    }
-  end
-
-  defp operation_arguments(args) do
-    Enum.map(args, fn arg ->
-      arg_type = arg["type"]
-      type = Schema.field_type(arg_type)
-      required = arg_type["kind"] == "NON_NULL"
-
-      %{
-        name: arg["name"],
-        type: type,
-        required: required
-      }
-    end)
   end
 end

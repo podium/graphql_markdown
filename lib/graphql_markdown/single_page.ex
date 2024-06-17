@@ -3,6 +3,7 @@ defmodule GraphqlMarkdown.SinglePage do
   Single page generator from Graphql to Markdown
   """
   alias GraphqlMarkdown.MarkdownHelpers
+  alias GraphqlMarkdown.OperationDetailsHelpers
   alias GraphqlMarkdown.Renderer
   alias GraphqlMarkdown.Schema
 
@@ -117,7 +118,7 @@ defmodule GraphqlMarkdown.SinglePage do
   end
 
   # Handles Mutations and Queries
-  def generate_section(type, %{"fields" => fields} = _details, _schema_details)
+  def generate_section(type, %{"fields" => fields} = _details, schema_details)
       when type in ["queries", "mutations"] do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
@@ -142,7 +143,7 @@ defmodule GraphqlMarkdown.SinglePage do
       render_newline()
 
       type
-      |> operation_details(field)
+      |> OperationDetailsHelpers.generate_operation_details(field, schema_details)
       |> MarkdownHelpers.graphql_operation()
       |> render()
 
@@ -248,36 +249,5 @@ defmodule GraphqlMarkdown.SinglePage do
 
   defp render_newline do
     Renderer.render_newline(:single)
-  end
-
-  defp operation_details(type, field) do
-    operation_type =
-      case type do
-        "queries" -> "query"
-        "mutations" -> "mutation"
-      end
-
-    arguments = operation_arguments(field["args"])
-
-    %{
-      operation_type: operation_type,
-      operation_name: field["name"],
-      arguments: arguments,
-      return_type: field["type"]
-    }
-  end
-
-  defp operation_arguments(args) do
-    Enum.map(args, fn arg ->
-      arg_type = arg["type"]
-      type = Schema.field_type(arg_type)
-      required = arg_type["kind"] == "NON_NULL"
-
-      %{
-        name: arg["name"],
-        type: type,
-        required: required
-      }
-    end)
   end
 end
