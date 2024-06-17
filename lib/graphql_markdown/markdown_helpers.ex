@@ -115,8 +115,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
 
   defp argument_types_string(args) do
     arg_types =
-      args
-      |> Enum.map(fn arg ->
+      Enum.map_join(args, ", ", fn arg ->
         arg_type = arg.type
         arg_name = arg.name
 
@@ -125,7 +124,6 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
 
         "$#{arg_name}: #{arg_type}#{type_suffix}"
       end)
-      |> Enum.join(", ")
 
     "(#{arg_types})"
   end
@@ -134,11 +132,9 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
 
   defp operation_arguments_string(args) do
     arguments_string =
-      args
-      |> Enum.map(fn arg ->
+      Enum.map_join(args, ", ", fn arg ->
         "#{arg.name}: $#{arg.name}"
       end)
-      |> Enum.join(", ")
 
     "(#{arguments_string})"
   end
