@@ -83,9 +83,11 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         operation_name: "generateLoginCode",
         operation_type: "mutation",
         return_type: %{
-          "kind" => "OBJECT",
-          "name" => "GenerateLoginCodeResponse",
-          "ofType" => nil
+          kind: "OBJECT",
+          name: "GenerateLoginCodeResponse",
+          fields: [
+            %{name: "processed", type: "SCALAR"}
+          ]
         }
       }
 
@@ -94,6 +96,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```gql
         mutation GenerateLoginCode($emailOrPhone: String!) {
           generateLoginCode(emailOrPhone: $emailOrPhone) {
+            processed
           }
         }
         ```
@@ -111,9 +114,12 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         operation_name: "login",
         operation_type: "mutation",
         return_type: %{
-          "kind" => "OBJECT",
-          "name" => "LoginResponse",
-          "ofType" => nil
+          kind: "OBJECT",
+          name: "LoginResponse",
+          fields: [
+            %{name: "idToken", type: "SCALAR"},
+            %{name: "refreshToken", type: "SCALAR"}
+          ]
         }
       }
 
@@ -122,6 +128,41 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```gql
         mutation Login($username: String!, $password: String!) {
           login(username: $username, password: $password) {
+            idToken
+            refreshToken
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+    end
+
+    test "returns an empty object for object an object return type" do
+      operation_details = %{
+        arguments: [
+          %{name: "refreshToken", required: true, type: "String"}
+        ],
+        operation_name: "refreshIdToken",
+        operation_type: "mutation",
+        return_type: %{
+          kind: "OBJECT",
+          name: "RefreshIdTokenResponse",
+          fields: [
+            %{name: "idToken", type: "SCALAR"},
+            %{name: "userSsoDetails", type: "OBJECT"}
+          ]
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        mutation RefreshIdToken($refreshToken: String!) {
+          refreshIdToken(refreshToken: $refreshToken) {
+            idToken
+            userSsoDetails {
+            }
           }
         }
         ```
@@ -136,9 +177,32 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         operation_name: "currentTime",
         operation_type: "query",
         return_type: %{
-          "kind" => "OBJECT",
-          "name" => "CurrentTimeResponse",
-          "ofType" => nil
+          kind: "SCALAR",
+          name: "String"
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        query CurrentTime {
+          currentTime {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+    end
+
+    test "does not include return fields when the return type is scalar" do
+      operation_details = %{
+        arguments: [],
+        operation_name: "currentTime",
+        operation_type: "query",
+        return_type: %{
+          kind: "SCALAR",
+          name: "String"
         }
       }
 

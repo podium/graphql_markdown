@@ -81,7 +81,12 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
   end
 
   def graphql_operation(operation_details) do
-    %{operation_name: operation_name, operation_type: operation_type, arguments: args} =
+    %{
+      operation_name: operation_name,
+      operation_type: operation_type,
+      arguments: args,
+      return_type: return_type
+    } =
       operation_details
 
     capitalized_operation_name = capitalize_operation_name(operation_name)
@@ -89,10 +94,12 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     arguments_types = argument_types_string(args)
     arguments = operation_arguments_string(args)
 
+    return_fields = returned_fields(return_type)
+
     """
     ```gql
     #{operation_type} #{capitalized_operation_name}#{arguments_types} {
-      #{operation_name}#{arguments} {
+      #{operation_name}#{arguments} {#{return_fields}
       }
     }
     ```
@@ -134,5 +141,25 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
       |> Enum.join(", ")
 
     "(#{arguments_string})"
+  end
+
+  defp returned_fields(%{kind: "SCALAR"}), do: ""
+
+  defp returned_fields(%{kind: "OBJECT"} = return_type) do
+    fields = Map.get(return_type, :fields, [])
+
+    return_values =
+      for field <- fields do
+        if field.type == "OBJECT" do
+          "#{field.name} {\n    }"
+        else
+          field.name
+        end
+      end
+
+    case return_values do
+      "" -> ""
+      _ -> "\n    " <> Enum.join(return_values, "\n    ")
+    end
   end
 end
