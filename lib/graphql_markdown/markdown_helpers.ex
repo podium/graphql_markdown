@@ -154,8 +154,8 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
       end
 
     case return_values do
-      "" -> ""
-      _ -> "\n    " <> Enum.join(return_values, "\n    ")
+      [_ | _] -> "\n    " <> Enum.join(return_values, "\n    ")
+      _ -> ""
     end
   end
 end
