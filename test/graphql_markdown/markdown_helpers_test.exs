@@ -138,7 +138,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
       assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
 
-    test "returns an empty object for object an object return type" do
+    test "returns an empty object for an object return type" do
       operation_details = %{
         arguments: [
           %{name: "refreshToken", required: true, type: "String"}
