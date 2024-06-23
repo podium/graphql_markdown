@@ -2,6 +2,8 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
   @moduledoc """
   A set of helpers to generate proper markdown easily
   """
+  alias GraphqlMarkdown.OperationDetailsHelpers
+
   def header(text, level, capitalize \\ false)
 
   def header(text, level, true) do
@@ -80,6 +82,26 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     headers <> new_line() <> data
   end
 
+  @doc """
+  Generates a code block for a GraphQL operation. Only the top-level fields returned are represented in the code block.
+  When one of the fields returned is an object, the object's fields are not included in the code block.
+
+  Example:
+    ```gql
+    mutation RefreshIdToken($refreshToken: String!) {
+      refreshIdToken(refreshToken: $refreshToken) {
+        idToken
+        userSsoDetails {
+        }
+      }
+    }
+    ```
+
+    In this example, the `idToken` field is a scalar, so it is included in the code block.
+    In this example the `userSsoDetails` field is an object, so its fields are not included in the code block.
+  """
+  @spec graphql_operation_code_block(OperationDetailsHelpers.graphql_operation_details()) ::
+          String.t()
   def graphql_operation_code_block(operation_details) do
     %{
       operation_name: operation_name,
