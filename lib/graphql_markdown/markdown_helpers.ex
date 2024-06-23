@@ -4,6 +4,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
   """
   alias GraphqlMarkdown.OperationDetailsHelpers
 
+  @spec header(String.t(), non_neg_integer(), boolean()) :: String.t()
   def header(text, level, capitalize \\ false)
 
   def header(text, level, true) do
@@ -14,6 +15,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     "#{String.duplicate("#", level)} #{text}"
   end
 
+  @spec list(String.t(), non_neg_integer(), boolean()) :: String.t()
   def list(text, level, capitalize \\ false)
 
   def list(text, level, true) do
@@ -24,6 +26,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     "#{String.duplicate(" ", level * 2)}* #{text}"
   end
 
+  @spec anchor(String.t(), String.t() | nil) :: String.t()
   def anchor(text, anchor_text \\ nil) do
     case anchor_text do
       nil ->
@@ -34,6 +37,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     end
   end
 
+  @spec link(String.t(), String.t() | nil) :: String.t()
   def link(text, url \\ nil) do
     case url do
       nil ->
@@ -44,18 +48,22 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     end
   end
 
+  @spec default_value(any()) :: String.t()
   def default_value(nil), do: ""
 
   def default_value(defaultValue) do
     "The default value is `#{defaultValue}`"
   end
 
+  @spec code(String.t()) :: String.t()
   def code(text), do: "`#{text}`"
 
+  @spec new_line() :: String.t()
   def new_line do
     "\n"
   end
 
+  @spec table(list(), list()) :: String.t()
   def table(fields, rows) do
     headers =
       Enum.join(
@@ -128,11 +136,13 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     """
   end
 
+  @spec capitalize_operation_name(String.t()) :: String.t()
   defp capitalize_operation_name(operation_name) do
     <<first_grapheme::utf8, rest::binary>> = operation_name
     String.capitalize(<<first_grapheme::utf8>>) <> rest
   end
 
+  @spec argument_types_string([OperationDetailsHelpers.argument()]) :: String.t()
   defp argument_types_string([]), do: ""
 
   defp argument_types_string(args) do
@@ -150,6 +160,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     "(#{arg_types})"
   end
 
+  @spec operation_arguments_string([OperationDetailsHelpers.argument()]) :: String.t()
   defp operation_arguments_string([]), do: ""
 
   defp operation_arguments_string(args) do
@@ -161,6 +172,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     "(#{arguments_string})"
   end
 
+  @spec returned_fields(OperationDetailsHelpers.return_type()) :: String.t()
   defp returned_fields(%{kind: "SCALAR"}), do: ""
 
   defp returned_fields(%{kind: "OBJECT"} = return_type) do
