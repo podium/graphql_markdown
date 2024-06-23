@@ -144,7 +144,7 @@ defmodule GraphqlMarkdown.SinglePage do
 
       type
       |> OperationDetailsHelpers.generate_operation_details(field, schema_details)
-      |> MarkdownHelpers.graphql_operation()
+      |> MarkdownHelpers.graphql_operation_code_block()
       |> render()
 
       render_newline()

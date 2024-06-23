@@ -80,7 +80,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
     headers <> new_line() <> data
   end
 
-  def graphql_operation(operation_details) do
+  def graphql_operation_code_block(operation_details) do
     %{
       operation_name: operation_name,
       operation_type: operation_type,

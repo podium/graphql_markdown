@@ -76,7 +76,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
     end
   end
 
-  describe "#graphql_operation" do
+  describe "#graphql_operation_code_block" do
     test "creates a GQL text block for the operation" do
       operation_details = %{
         arguments: [%{name: "emailOrPhone", required: true, type: "String"}],
@@ -102,7 +102,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```
         """
 
-      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
 
     test "returns comma-separated arguments and types when there is more than one argument" do
@@ -135,7 +135,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```
         """
 
-      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
 
     test "returns an empty object for object an object return type" do
@@ -168,7 +168,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```
         """
 
-      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
 
     test "does not include argument parentheses when there are no arguments" do
@@ -192,7 +192,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```
         """
 
-      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
 
     test "does not include return fields when the return type is scalar" do
@@ -216,7 +216,7 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
         ```
         """
 
-      assert MarkdownHelpers.graphql_operation(operation_details) == expected_text
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
   end
 

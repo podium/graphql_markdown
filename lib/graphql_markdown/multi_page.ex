@@ -72,7 +72,7 @@ defmodule GraphqlMarkdown.MultiPage do
       gql_code_markdown =
         type
         |> OperationDetailsHelpers.generate_operation_details(field, schema_details)
-        |> MarkdownHelpers.graphql_operation()
+        |> MarkdownHelpers.graphql_operation_code_block()
 
       render(type, gql_code_markdown)
 
