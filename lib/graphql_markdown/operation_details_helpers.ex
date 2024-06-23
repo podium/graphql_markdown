@@ -29,6 +29,10 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
           return_type: return_type()
         }
 
+  @doc """
+  Creates a map with the details of a query or mutation. The details created include
+  the operation type, operation name, arguments, and return type.
+  """
   @spec generate_operation_details(String.t(), map(), GraphqlMarkdown.Schema.t()) ::
           graphql_operation_details()
   def generate_operation_details(type, field, schema_details) do
@@ -50,6 +54,7 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
     operation_details
   end
 
+  @spec operation_arguments([map()]) :: [argument()]
   defp operation_arguments(args) do
     Enum.map(args, fn arg ->
       arg_type = arg["type"]
@@ -64,6 +69,7 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
     end)
   end
 
+  @spec return_fields(map(), GraphqlMarkdown.Schema.t()) :: return_type()
   defp return_fields(%{"name" => name, "kind" => "OBJECT"}, schema_details) do
     object_fields =
       schema_details
@@ -86,10 +92,12 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
   defp return_fields(return_type, _schema_details) do
     %{
       name: return_type["name"],
-      kind: return_type["kind"]
+      kind: return_type["kind"],
+      fields: []
     }
   end
 
+  @spec return_field_type(map()) :: String.t()
   defp return_field_type(%{"type" => %{"kind" => "NON_NULL"}} = field) do
     get_in(field, ["type", "ofType", "kind"])
   end
