@@ -3,6 +3,7 @@ defmodule GraphqlMarkdown.SinglePage do
   Single page generator from Graphql to Markdown
   """
   alias GraphqlMarkdown.MarkdownHelpers
+  alias GraphqlMarkdown.OperationDetailsHelpers
   alias GraphqlMarkdown.Renderer
   alias GraphqlMarkdown.Schema
 
@@ -95,7 +96,8 @@ defmodule GraphqlMarkdown.SinglePage do
       fn section_name ->
         generate_section(
           section_name,
-          Map.get(schema_details, String.to_existing_atom(section_name))
+          Map.get(schema_details, String.to_existing_atom(section_name)),
+          schema_details
         )
 
         render_newline()
@@ -103,20 +105,20 @@ defmodule GraphqlMarkdown.SinglePage do
     )
   end
 
-  def generate_section(type, []) do
+  def generate_section(type, [], _schema_details) do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
     render("None")
   end
 
-  def generate_section(type, nil) do
+  def generate_section(type, nil, _schema_details) do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
     render("None")
   end
 
   # Handles Mutations and Queries
-  def generate_section(type, %{"fields" => fields} = _details)
+  def generate_section(type, %{"fields" => fields} = _details, schema_details)
       when type in ["queries", "mutations"] do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
@@ -139,10 +141,17 @@ defmodule GraphqlMarkdown.SinglePage do
       data = generate_data(field["args"])
       render(MarkdownHelpers.table([field: {}, description: {}], data))
       render_newline()
+
+      type
+      |> OperationDetailsHelpers.generate_operation_details(field, schema_details)
+      |> MarkdownHelpers.graphql_operation_code_block()
+      |> render()
+
+      render_newline()
     end)
   end
 
-  def generate_section(type, details) do
+  def generate_section(type, details, _schema_details) do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
 

@@ -76,6 +76,150 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
     end
   end
 
+  describe "#graphql_operation_code_block" do
+    test "creates a GQL text block for the operation" do
+      operation_details = %{
+        arguments: [%{name: "emailOrPhone", required: true, type: "String"}],
+        operation_name: "generateLoginCode",
+        operation_type: "mutation",
+        return_type: %{
+          kind: "OBJECT",
+          name: "GenerateLoginCodeResponse",
+          fields: [
+            %{name: "processed", type: "SCALAR"}
+          ]
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        mutation GenerateLoginCode($emailOrPhone: String!) {
+          generateLoginCode(emailOrPhone: $emailOrPhone) {
+            processed
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
+
+    test "returns comma-separated arguments and types when there is more than one argument" do
+      operation_details = %{
+        arguments: [
+          %{name: "username", required: true, type: "String"},
+          %{name: "password", required: true, type: "String"}
+        ],
+        operation_name: "login",
+        operation_type: "mutation",
+        return_type: %{
+          kind: "OBJECT",
+          name: "LoginResponse",
+          fields: [
+            %{name: "idToken", type: "SCALAR"},
+            %{name: "refreshToken", type: "SCALAR"}
+          ]
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        mutation Login($username: String!, $password: String!) {
+          login(username: $username, password: $password) {
+            idToken
+            refreshToken
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
+
+    test "returns an empty object for an object return type" do
+      operation_details = %{
+        arguments: [
+          %{name: "refreshToken", required: true, type: "String"}
+        ],
+        operation_name: "refreshIdToken",
+        operation_type: "mutation",
+        return_type: %{
+          kind: "OBJECT",
+          name: "RefreshIdTokenResponse",
+          fields: [
+            %{name: "idToken", type: "SCALAR"},
+            %{name: "userSsoDetails", type: "OBJECT"}
+          ]
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        mutation RefreshIdToken($refreshToken: String!) {
+          refreshIdToken(refreshToken: $refreshToken) {
+            idToken
+            userSsoDetails {
+            }
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
+
+    test "does not include argument parentheses when there are no arguments" do
+      operation_details = %{
+        arguments: [],
+        operation_name: "currentTime",
+        operation_type: "query",
+        return_type: %{
+          kind: "SCALAR",
+          name: "String"
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        query CurrentTime {
+          currentTime {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
+
+    test "does not include return fields when the return type is scalar" do
+      operation_details = %{
+        arguments: [],
+        operation_name: "currentTime",
+        operation_type: "query",
+        return_type: %{
+          kind: "SCALAR",
+          name: "String"
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        query CurrentTime {
+          currentTime {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
+  end
+
   describe "#default_value" do
     test "return nothing when no default value is found as code" do
       assert MarkdownHelpers.default_value(nil) == ""

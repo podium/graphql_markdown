@@ -3,6 +3,7 @@ defmodule GraphqlMarkdown.MultiPage do
   Multi page generator from Graphql to Markdown
   """
   alias GraphqlMarkdown.MarkdownHelpers
+  alias GraphqlMarkdown.OperationDetailsHelpers
   alias GraphqlMarkdown.Renderer
   alias GraphqlMarkdown.Schema
 
@@ -17,7 +18,13 @@ defmodule GraphqlMarkdown.MultiPage do
         case Renderer.start_link(name: section, filename: filename) do
           {:ok, _pid} ->
             generate_title(section, options)
-            generate_section(section, Map.get(schema_details, String.to_existing_atom(section)))
+
+            generate_section(
+              section,
+              Map.get(schema_details, String.to_existing_atom(section)),
+              schema_details
+            )
+
             Renderer.save(String.to_existing_atom(section))
             filename
 
@@ -33,15 +40,15 @@ defmodule GraphqlMarkdown.MultiPage do
     render_newline(type)
   end
 
-  def generate_section(type, []) do
+  def generate_section(type, [], _schema_details) do
     render(type, "None")
   end
 
-  def generate_section(type, nil) do
+  def generate_section(type, nil, _schema_details) do
     render(type, "None")
   end
 
-  def generate_section(type, %{"fields" => fields} = _details)
+  def generate_section(type, %{"fields" => fields} = _details, schema_details)
       when type in ["queries", "mutations"] do
     Enum.each(fields, fn field ->
       render(type, MarkdownHelpers.header(field["name"], 2))
@@ -61,10 +68,19 @@ defmodule GraphqlMarkdown.MultiPage do
       data = generate_data(field["args"])
       render(type, MarkdownHelpers.table([field: {}, description: {}], data))
       render_newline(type)
+
+      gql_code_markdown =
+        type
+        |> OperationDetailsHelpers.generate_operation_details(field, schema_details)
+        |> MarkdownHelpers.graphql_operation_code_block()
+
+      render(type, gql_code_markdown)
+
+      render_newline(type)
     end)
   end
 
-  def generate_section(type, details) do
+  def generate_section(type, details, _schema_details) do
     input_kind = Schema.input_kind()
     scalar_kind = Schema.scalar_kind()
     enum_kind = Schema.enum_kind()
