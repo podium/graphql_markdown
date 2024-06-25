@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.3.0 - 2024-06-25
+
+### Added
+
+* Support generating example queries from the schema
+
+## 0.2.1 - 2024-03-26
+
+### Changed
+
+* Improve documentation
+* Fix generating multiple times
+
+## 0.2.0 - 2024-01-12
+
+### Changed
+
+* Deps Update release
+
 ## 0.1.5 - 2023-08-16
 
 ### Changed
