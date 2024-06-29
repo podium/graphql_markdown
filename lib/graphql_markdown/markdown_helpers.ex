@@ -198,13 +198,51 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
 
     return_values =
       for possible_type <- possible_types do
-          "... on #{possible_type.name} {\n    }"
+        "... on #{possible_type.name} {\n    }"
       end
 
     case return_values do
       [_ | _] ->
         "\n    __typename\n    " <> Enum.join(return_values, "\n    ")
-      _ -> ""
+
+      _ ->
+        ""
     end
+  end
+
+  defp returned_fields(%{kind: "INTERFACE"} = return_type) do
+    fields = Map.get(return_type, :fields, [])
+    possible_types = Map.get(return_type, :possible_types, [])
+
+    interface_fields =
+      for field <- fields do
+        if field.type == "OBJECT" do
+          "#{field.name} {\n    }"
+        else
+          field.name
+        end
+      end
+
+    shared_fields_string =
+      case interface_fields do
+        [_ | _] -> "\n    " <> Enum.join(interface_fields, "\n    ")
+        _ -> ""
+      end
+
+    specific_types =
+      for possible_type <- possible_types do
+        "... on #{possible_type.name} {\n    }"
+      end
+
+    specific_types_string =
+      case specific_types do
+        [_ | _] ->
+          "\n    " <> Enum.join(specific_types, "\n    ")
+
+        _ ->
+          ""
+      end
+
+    shared_fields_string <> specific_types_string
   end
 end
