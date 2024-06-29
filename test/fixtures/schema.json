@@ -1001,6 +1001,70 @@
           "possibleTypes": null
         },
         {
+          "description": "Unacceptable input from user",
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "The type of violation",
+              "isDeprecated": false,
+              "name": "key",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            },
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "An explanation on how the user can proceed",
+              "isDeprecated": false,
+              "name": "message",
+              "type": {
+                "kind": "NON_NULL",
+                "name": null,
+                "ofType": {
+                  "kind": "SCALAR",
+                  "name": "String",
+                  "ofType": null
+                }
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "UnexpectedRequest",
+          "possibleTypes": null
+        },
+        {
+          "description": "The response for password login",
+          "enumValues": null,
+          "fields": null,
+          "inputFields": null,
+          "interfaces": null,
+          "kind": "UNION",
+          "name": "LoginResponseV2",
+          "possibleTypes": [
+            {
+              "kind": "OBJECT",
+              "name": "LoginResponse",
+              "ofType": null
+            },
+            {
+              "kind": "OBJECT",
+              "name": "UnexpectedRequest",
+              "ofType": null
+            }
+          ]
+        },
+        {
           "description": null,
           "enumValues": null,
           "fields": null,
@@ -1130,6 +1194,33 @@
               "type": {
                 "kind": "OBJECT",
                 "name": "LoginResponse",
+                "ofType": null
+              }
+            },
+            {
+              "args": [
+                {
+                  "defaultValue": null,
+                  "description": null,
+                  "name": "input",
+                  "type": {
+                    "kind": "NON_NULL",
+                    "name": null,
+                    "ofType": {
+                      "kind": "INPUT_OBJECT",
+                      "name": "PasswordLoginInput",
+                      "ofType": null
+                    }
+                  }
+                }
+              ],
+              "deprecationReason": null,
+              "description": "Version 2 of password login",
+              "isDeprecated": false,
+              "name": "passwordLoginV2",
+              "type": {
+                "kind": "UNION",
+                "name": "LoginResponseV2",
                 "ofType": null
               }
             },
