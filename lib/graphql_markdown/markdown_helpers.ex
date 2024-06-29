@@ -192,4 +192,19 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
       _ -> ""
     end
   end
+
+  defp returned_fields(%{kind: "UNION"} = return_type) do
+    possible_types = Map.get(return_type, :possible_types, [])
+
+    return_values =
+      for possible_type <- possible_types do
+          "... on #{possible_type.name} {\n    }"
+      end
+
+    case return_values do
+      [_ | _] ->
+        "\n    __typename\n    " <> Enum.join(return_values, "\n    ")
+      _ -> ""
+    end
+  end
 end
