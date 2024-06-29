@@ -232,9 +232,141 @@ defmodule GraphqlMarkdown.OperationDetailsHelpersTest do
     "type" => %{"kind" => "OBJECT", "name" => "UserSsoDetails", "ofType" => nil}
   }
 
+  @character_interface %{
+    "description" => "Information about a character",
+    "enumValues" => nil,
+    "fields" => [
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => nil,
+        "isDeprecated" => false,
+        "name" => "id",
+        "type" => %{"kind" => "SCALAR", "name" => "ID", "ofType" => nil}
+      },
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => "The name",
+        "isDeprecated" => false,
+        "name" => "name",
+        "type" => %{"kind" => "SCALAR", "name" => "String", "ofType" => nil}
+      }
+    ],
+    "inputFields" => nil,
+    "interfaces" => [],
+    "kind" => "INTERFACE",
+    "name" => "Character",
+    "possibleTypes" => [
+      %{"kind" => "OBJECT", "name" => "Human", "ofType" => nil},
+      %{"kind" => "OBJECT", "name" => "Droid", "ofType" => nil}
+    ]
+  }
+
+  @human_object %{
+    "description" => nil,
+    "enumValues" => nil,
+    "fields" => [
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => nil,
+        "isDeprecated" => false,
+        "name" => "id",
+        "type" => %{"kind" => "SCALAR", "name" => "ID", "ofType" => nil}
+      },
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => nil,
+        "isDeprecated" => false,
+        "name" => "name",
+        "type" => %{"kind" => "SCALAR", "name" => "String", "ofType" => nil}
+      },
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => nil,
+        "isDeprecated" => false,
+        "name" => "age",
+        "type" => %{"kind" => "SCALAR", "name" => "Int", "ofType" => nil}
+      }
+    ],
+    "inputFields" => nil,
+    "interfaces" => [
+      %{"kind" => "INTERFACE", "name" => "Character", "ofType" => nil}
+    ],
+    "kind" => "OBJECT",
+    "name" => "Human",
+    "possibleTypes" => nil
+  }
+
+  @droid_object %{
+    "description" => nil,
+    "enumValues" => nil,
+    "fields" => [
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => nil,
+        "isDeprecated" => false,
+        "name" => "id",
+        "type" => %{"kind" => "SCALAR", "name" => "ID", "ofType" => nil}
+      },
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => nil,
+        "isDeprecated" => false,
+        "name" => "name",
+        "type" => %{"kind" => "SCALAR", "name" => "String", "ofType" => nil}
+      },
+      %{
+        "args" => [],
+        "deprecationReason" => nil,
+        "description" => nil,
+        "isDeprecated" => false,
+        "name" => "primaryFunction",
+        "type" => %{"kind" => "SCALAR", "name" => "String", "ofType" => nil}
+      }
+    ],
+    "inputFields" => nil,
+    "interfaces" => [
+      %{"kind" => "INTERFACE", "name" => "Character", "ofType" => nil}
+    ],
+    "kind" => "OBJECT",
+    "name" => "Droid",
+    "possibleTypes" => nil
+  }
+
+  @hero_for_episode_query %{
+    "args" => [
+      %{
+        "defaultValue" => nil,
+        "description" => nil,
+        "name" => "episode",
+        "type" => %{
+          "kind" => "NON_NULL",
+          "name" => nil,
+          "ofType" => %{
+            "kind" => "SCALAR",
+            "name" => "String",
+            "ofType" => nil
+          }
+        }
+      }
+    ],
+    "deprecationReason" => nil,
+    "description" => nil,
+    "isDeprecated" => false,
+    "name" => "heroForEpisode",
+    "type" => %{"kind" => "INTERFACE", "name" => "Character", "ofType" => nil}
+  }
+
   @root_query %{
     "fields" => [
-      @user_sso_details_query
+      @user_sso_details_query,
+      @hero_for_episode_query
     ],
     "inputFields" => nil,
     "interfaces" => [],
@@ -264,9 +396,14 @@ defmodule GraphqlMarkdown.OperationDetailsHelpersTest do
       @user_sso_details_object,
       @login_response,
       @unexpected_request,
+      @human_object,
+      @droid_object
     ],
     unions: [
       @login_response_v2
+    ],
+    interfaces: [
+      @character_interface
     ]
   }
 
@@ -354,6 +491,30 @@ defmodule GraphqlMarkdown.OperationDetailsHelpersTest do
         OperationDetailsHelpers.generate_operation_details(
           "mutations",
           @password_login_v2_mutation,
+          @schema_details
+        )
+
+      assert operation_details.return_type == expected_return_type
+    end
+
+    test "returns the return type for an operation that has an interface in its return type" do
+      expected_return_type = %{
+        fields: [
+          %{name: "id", type: "SCALAR"},
+          %{name: "name", type: "SCALAR"}
+        ],
+        possible_types: [
+          %{name: "Human", type: "OBJECT"},
+          %{name: "Droid", type: "OBJECT"}
+        ],
+        kind: "INTERFACE",
+        name: "Character"
+      }
+
+      operation_details =
+        OperationDetailsHelpers.generate_operation_details(
+          "queries",
+          @hero_for_episode_query,
           @schema_details
         )
 

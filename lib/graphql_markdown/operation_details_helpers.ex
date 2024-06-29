@@ -13,14 +13,14 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
 
   @type field :: %{
           name: String.t(),
-          type: String.t(),
-          possible_types: [field()]
+          type: String.t()
         }
 
   @type return_type :: %{
           name: String.t(),
           kind: String.t(),
-          fields: [field()]
+          fields: [field()],
+          possible_types: [field()]
         }
 
   @type graphql_operation_details :: %{
@@ -104,6 +104,36 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
     %{
       name: name,
       kind: "UNION",
+      possible_types: possible_types
+    }
+  end
+
+  defp return_fields(%{"name" => name, "kind" => "INTERFACE"}, schema_details) do
+    interface_fields =
+      schema_details
+      |> Map.get(:interfaces, [])
+      |> Enum.find(fn x -> x["name"] == name end)
+      |> Map.get("fields", [])
+      |> Enum.map(fn field ->
+        field_name = field["name"]
+        type = return_field_type(field)
+        %{name: field_name, type: type}
+      end)
+
+    possible_types =
+      schema_details
+      |> Map.get(:interfaces, [])
+      |> Enum.find(fn interface -> interface["name"] == name end)
+      |> Map.get("possibleTypes", [])
+      |> Enum.map(fn field ->
+        name = field["name"]
+        %{name: name, type: "OBJECT"}
+      end)
+
+    %{
+      name: name,
+      kind: "INTERFACE",
+      fields: interface_fields,
       possible_types: possible_types
     }
   end
