@@ -138,6 +138,30 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
     }
   end
 
+  defp return_fields(
+         %{"name" => name, "kind" => "LIST", "ofType" => %{"kind" => "OBJECT"}} = return_field,
+         schema_details
+       ) do
+    name_of_list_type = get_in(return_field, ["ofType", "name"])
+
+    fields =
+      schema_details
+      |> Map.get(:objects, [])
+      |> Enum.find(fn object -> object["name"] == name_of_list_type end)
+      |> Map.get("fields", [])
+      |> Enum.map(fn field ->
+        field_name = field["name"]
+        type = return_field_type(field)
+        %{name: field_name, type: type}
+      end)
+
+    %{
+      name: name,
+      kind: "LIST",
+      fields: fields
+    }
+  end
+
   defp return_fields(return_type, _schema_details) do
     %{
       name: return_type["name"],
