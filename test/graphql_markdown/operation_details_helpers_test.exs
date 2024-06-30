@@ -387,11 +387,40 @@ defmodule GraphqlMarkdown.OperationDetailsHelpersTest do
     }
   }
 
+  @humans_in_episode_query %{
+    "args" => [
+      %{
+        "defaultValue" => nil,
+        "description" => nil,
+        "name" => "episode",
+        "type" => %{
+          "kind" => "NON_NULL",
+          "name" => nil,
+          "ofType" => %{"kind" => "SCALAR", "name" => "String", "ofType" => nil}
+        }
+      }
+    ],
+    "deprecationReason" => nil,
+    "description" => "Get the humans in an episode",
+    "isDeprecated" => false,
+    "name" => "humansInEpisode",
+    "type" => %{
+      "kind" => "NON_NULL",
+      "name" => nil,
+      "ofType" => %{
+        "kind" => "LIST",
+        "name" => nil,
+        "ofType" => %{"kind" => "OBJECT", "name" => "Human", "ofType" => nil}
+      }
+    }
+  }
+
   @root_query %{
     "fields" => [
       @user_sso_details_query,
       @hero_for_episode_query,
-      @droids_in_episode_query
+      @droids_in_episode_query,
+      @humans_in_episode_query
     ],
     "inputFields" => nil,
     "interfaces" => [],
@@ -561,6 +590,27 @@ defmodule GraphqlMarkdown.OperationDetailsHelpersTest do
         OperationDetailsHelpers.generate_operation_details(
           "queries",
           @droids_in_episode_query,
+          @schema_details
+        )
+
+      assert operation_details.return_type == expected_return_type
+    end
+
+    test "returns the return type for an operation that has a non-null list as its return type" do
+      expected_return_type = %{
+        fields: [
+          %{name: "id", type: "SCALAR"},
+          %{name: "name", type: "SCALAR"},
+          %{name: "age", type: "SCALAR"}
+        ],
+        kind: "LIST",
+        name: nil
+      }
+
+      operation_details =
+        OperationDetailsHelpers.generate_operation_details(
+          "queries",
+          @humans_in_episode_query,
           @schema_details
         )
 
