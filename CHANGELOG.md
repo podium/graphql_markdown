@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1 - 2024-07-01
+
+### Added
+
+* Fix problems with generating example queries and mutations when the return types are unions, interfaces or lists
+
 ## 0.3.0 - 2024-06-25
 
 ### Added
