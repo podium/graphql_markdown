@@ -4,7 +4,7 @@
 
 ### Added
 
-* Fix problems with generating example queries and mutations when the return types are unions, interfaces or lists [#49](https://github.com/podium/graphql_markdown/pull/49)
+* Fix problems with generating example queries and mutations when the return types are unions, interfaces or lists: [#49](https://github.com/podium/graphql_markdown/pull/49)
 
 ## 0.3.0 - 2024-06-25 [RETIRED]
 
