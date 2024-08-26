@@ -11,7 +11,17 @@ defmodule GraphqlMarkdown.MultiPage do
     output_dir = Keyword.get(options, :output_dir, ".")
 
     Enum.map(
-      ["queries", "mutations", "objects", "inputs", "enums", "scalars", "interfaces", "unions"],
+      [
+        "queries",
+        "mutations",
+        "objects",
+        "subscriptions",
+        "inputs",
+        "enums",
+        "scalars",
+        "interfaces",
+        "unions"
+      ],
       fn section ->
         filename = Path.join(output_dir, "#{section}.md")
 
@@ -49,7 +59,7 @@ defmodule GraphqlMarkdown.MultiPage do
   end
 
   def generate_section(type, %{"fields" => fields} = _details, schema_details)
-      when type in ["queries", "mutations"] do
+      when type in ["queries", "mutations", "subscriptions"] do
     Enum.each(fields, fn field ->
       render(type, MarkdownHelpers.header(field["name"], 2))
       render_newline(type)
