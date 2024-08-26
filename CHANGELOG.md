@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.0 - 2024-08-26
+
+### Added
+
+* Added support for Subscriptions
+
 ## 0.3.1 - 2024-07-01
 
 ### Fixed

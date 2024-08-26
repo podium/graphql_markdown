@@ -41,6 +41,7 @@ defmodule GraphqlMarkdown.OperationDetailsHelpers do
       case type do
         "queries" -> "query"
         "mutations" -> "mutation"
+        "subscriptions" -> "subscription"
       end
 
     arguments = operation_arguments(field["args"])

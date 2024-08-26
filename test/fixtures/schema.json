@@ -62,7 +62,9 @@
       "queryType": {
         "name": "RootQueryType"
       },
-      "subscriptionType": null,
+      "subscriptionType": {
+        "name": "RootSubscriptionType"
+      },
       "types": [
         {
           "description": "Represents a directive",

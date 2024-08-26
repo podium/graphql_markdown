@@ -41,6 +41,7 @@ defmodule GraphqlMarkdown.SinglePage do
   defp generate_toc(schema_details, _options) do
     print_toc_type("queries", schema_details.queries)
     print_toc_type("mutations", schema_details.mutations)
+    print_toc_type("subscriptions", schema_details.subscriptions)
     print_toc_type("objects", schema_details.objects)
     print_toc_type("inputs", schema_details.inputs)
     print_toc_type("enums", schema_details.enums)
@@ -117,9 +118,9 @@ defmodule GraphqlMarkdown.SinglePage do
     render("None")
   end
 
-  # Handles Mutations and Queries
+  # Handles Mutations and Queries and Subscriptions
   def generate_section(type, %{"fields" => fields} = _details, schema_details)
-      when type in ["queries", "mutations"] do
+      when type in ["queries", "mutations", "subscriptions"] do
     render(MarkdownHelpers.header(type, 2, true))
     render_newline()
 

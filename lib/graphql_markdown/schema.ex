@@ -8,6 +8,7 @@ defmodule GraphqlMarkdown.Schema do
   @type t :: %__MODULE__{
           mutations: list(map()),
           queries: list(map()),
+          subscriptions: list(map()),
           inputs: list(map()),
           objects: list(map()),
           enums: list(map()),
@@ -15,7 +16,17 @@ defmodule GraphqlMarkdown.Schema do
           interfaces: list(map()),
           unions: list(map())
         }
-  defstruct [:mutations, :queries, :inputs, :objects, :enums, :scalars, :interfaces, :unions]
+  defstruct [
+    :mutations,
+    :queries,
+    :subscriptions,
+    :inputs,
+    :objects,
+    :enums,
+    :scalars,
+    :interfaces,
+    :unions
+  ]
 
   @object_kind "OBJECT"
   @input_kind "INPUT_OBJECT"
@@ -93,6 +104,10 @@ defmodule GraphqlMarkdown.Schema do
 
   def query_type(schema) do
     schema["queryType"]["name"]
+  end
+
+  def subscription_type(schema) do
+    schema["subscriptionType"]["name"]
   end
 
   def types(schema) do
