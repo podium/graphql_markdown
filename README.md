@@ -61,6 +61,7 @@ it will generate the following files in your current folder:
 
   ./queries.md
   ./mutations.md
+  ./subscriptions.md
   ./objects.md
   ./inputs.md
   ./enums.md
@@ -85,7 +86,8 @@ defmodule Azeroth.MixProject do
     "guides/graphql/objects.md",
     "guides/graphql/queries.md",
     "guides/graphql/scalars.md",
-    "guides/graphql/unions.md"
+    "guides/graphql/unions.md",
+    "guides/graphql/subscriptions.md"
   ]
   ...
 
