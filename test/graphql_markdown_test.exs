@@ -40,7 +40,6 @@ defmodule GraphqlMarkdownTest do
       assert content =~ "# Other title"
     end
 
-    @tag :wip
     test "convert schema to markdown as multipage" do
       assert GraphqlMarkdown.generate(
                schema: "test/fixtures/schema.json",
