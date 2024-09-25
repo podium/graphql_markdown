@@ -194,6 +194,7 @@ defmodule GraphqlMarkdown.MultiPage do
       _ ->
         "scalars.html#" <> Schema.field_type(field["type"])
     end
+    |> String.downcase()
   end
 
   defp render(type, text) do

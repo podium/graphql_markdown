@@ -40,6 +40,7 @@ defmodule GraphqlMarkdownTest do
       assert content =~ "# Other title"
     end
 
+    @tag :wip
     test "convert schema to markdown as multipage" do
       assert GraphqlMarkdown.generate(
                schema: "test/fixtures/schema.json",
@@ -77,6 +78,10 @@ defmodule GraphqlMarkdownTest do
                   "guides/interfaces.md",
                   "guides/unions.md"
                 ]}
+
+      # anchors need to be downcased to match other parts of the generated markdown
+      content = File.read!("guides/queries.md")
+      assert content =~ "Type: [Droid](scalars.html#droid)"
     end
 
     test "fails to load the file" do
