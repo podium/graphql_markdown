@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1 - 2024-09-25
+
+### Fixed
+
+* Links to types from queries/mutations sets anchor properly
+
 ## 0.4.0 - 2024-08-26
 
 ### Added
