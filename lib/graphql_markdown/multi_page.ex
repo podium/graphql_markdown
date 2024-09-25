@@ -181,20 +181,22 @@ defmodule GraphqlMarkdown.MultiPage do
   end
 
   defp reference_for_kind(field) do
-    case Schema.field_kind(field["type"]) do
-      "OBJECT" ->
-        "objects.html#" <> Schema.field_type(field["type"])
+    reference =
+      case Schema.field_kind(field["type"]) do
+        "OBJECT" ->
+          "objects.html#" <> Schema.field_type(field["type"])
 
-      "INPUT_OBJECT" ->
-        "inputs.html#" <> Schema.field_type(field["type"])
+        "INPUT_OBJECT" ->
+          "inputs.html#" <> Schema.field_type(field["type"])
 
-      "ENUM" ->
-        "enums.html#" <> Schema.field_type(field["type"])
+        "ENUM" ->
+          "enums.html#" <> Schema.field_type(field["type"])
 
-      _ ->
-        "scalars.html#" <> Schema.field_type(field["type"])
-    end
-    |> String.downcase()
+        _ ->
+          "scalars.html#" <> Schema.field_type(field["type"])
+      end
+
+    String.downcase(reference)
   end
 
   defp render(type, text) do
