@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.2 - 2024-09-26
+
+### Fixed
+
+* Links to union return types handled correctly
+
 ## 0.4.1 - 2024-09-25
 
 ### Fixed
