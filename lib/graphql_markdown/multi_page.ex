@@ -192,6 +192,9 @@ defmodule GraphqlMarkdown.MultiPage do
         "ENUM" ->
           "enums.html#" <> Schema.field_type(field["type"])
 
+        "UNION" ->
+          "unions.html#" <> Schema.field_type(field["type"])
+
         _ ->
           "scalars.html#" <> Schema.field_type(field["type"])
       end

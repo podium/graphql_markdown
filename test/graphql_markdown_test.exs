@@ -81,6 +81,10 @@ defmodule GraphqlMarkdownTest do
       # anchors need to be downcased to match other parts of the generated markdown
       content = File.read!("guides/queries.md")
       assert content =~ "Type: [Droid](scalars.html#droid)"
+
+      # union types need to be a valid type for links
+      content = File.read!("guides/mutations.md")
+      assert content =~ "Type: [LoginResponseV2](unions.html#loginresponsev2)"
     end
 
     test "fails to load the file" do
