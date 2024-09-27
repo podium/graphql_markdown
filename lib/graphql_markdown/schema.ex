@@ -64,10 +64,10 @@ defmodule GraphqlMarkdown.Schema do
   def field_kind(type) do
     case type["kind"] do
       "NON_NULL" ->
-        field_type(type["ofType"])
+        field_kind(type["ofType"])
 
       "LIST" ->
-        field_type(type["ofType"])
+        field_kind(type["ofType"])
 
       _ ->
         type["kind"]
