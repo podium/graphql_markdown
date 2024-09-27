@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.3 - 2024-09-27
+
+### Fixed
+
+* Fixes where NonNull and ListTypes were defaulting to scalar types for anchor links
+
 ## 0.4.2 - 2024-09-26
 
 ### Fixed
