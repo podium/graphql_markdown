@@ -2,7 +2,7 @@ defmodule GraphqlMarkdown.MixProject do
   use Mix.Project
 
   @project_url "https://github.com/podium/graphql_markdown"
-  @version "0.4.3"
+  @version "0.5.0"
 
   def project do
     [
@@ -10,7 +10,7 @@ defmodule GraphqlMarkdown.MixProject do
       name: "Graphql Markdown",
       description: "A simple GraphQL JSON Schema to  Markdown generator",
       version: @version,
-      elixir: "~> 1.13",
+      elixir: "~> 1.14",
       source_url: @project_url,
       homepage_url: @project_url,
       start_permanent: Mix.env() == :prod,
