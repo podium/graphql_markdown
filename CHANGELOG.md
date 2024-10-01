@@ -1,5 +1,9 @@
 # Changelog
 
+## 0.5.0 - 2024-10-01
+
+* Remove support for Elixir 1.13. Minimum is now 1.14
+
 ## 0.4.3 - 2024-09-27
 
 ### Fixed
