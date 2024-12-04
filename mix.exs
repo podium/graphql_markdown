@@ -18,7 +18,13 @@ defmodule GraphqlMarkdown.MixProject do
       docs: docs(),
       package: package(),
       test_coverage: [summary: [threshold: 85]],
-      dialyzer: [plt_add_apps: [:mix]]
+      dialyzer: [
+        ignore_warnings: ".dialyzer.ignore-warnings",
+        list_unused_filters: true,
+        plt_add_apps: [:mix],
+        plt_file: {:no_warn, "priv/plts/project.plt"},
+        plt_core_path: "priv/plts/core.plt"
+      ]
     ]
   end
 
@@ -31,7 +37,7 @@ defmodule GraphqlMarkdown.MixProject do
   defp deps do
     [
       {:credo, "~> 1.7", only: [:dev, :test], runtime: false},
-      {:dialyxir, "~> 1.4", only: [:dev, :test], runtime: false},
+      {:dialyxir, "~> 1.4", only: [:dev], runtime: false},
       {:ex_doc, "~> 0.30", only: [:dev, :test], runtime: false},
       {:jason, "~> 1.4"}
     ]
