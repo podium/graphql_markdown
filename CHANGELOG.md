@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1 - 2025-03-11
+
+### Fixed
+
+* Add support for NON_NULL GraphQL types
+
 ## 0.5.0 - 2024-10-01
 
 ### Changed

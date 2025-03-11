@@ -218,6 +218,64 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
 
       assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
+
+    test "handles NON_NULL return type by unwrapping to the inner type" do
+      operation_details = %{
+        arguments: [],
+        operation_name: "requiredField",
+        operation_type: "query",
+        return_type: %{
+          kind: "NON_NULL",
+          name: nil,
+          ofType: %{
+            kind: "OBJECT",
+            name: "RequiredResponse",
+            fields: [
+              %{name: "isRequired", type: "SCALAR"},
+              %{name: "metadata", type: "SCALAR"}
+            ]
+          }
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        query RequiredField {
+          requiredField {
+            isRequired
+            metadata
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
+
+    test "handles NON_NULL return type without ofType field" do
+      operation_details = %{
+        arguments: [],
+        operation_name: "emptyRequired",
+        operation_type: "query",
+        return_type: %{
+          kind: "NON_NULL",
+          name: "String"
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        query EmptyRequired {
+          emptyRequired {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
   end
 
   describe "#default_value" do
