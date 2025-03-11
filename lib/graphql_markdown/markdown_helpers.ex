@@ -245,4 +245,7 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
 
     shared_fields_string <> specific_types_string
   end
+
+  defp returned_fields(%{kind: "NON_NULL", ofType: inner_type}), do: returned_fields(inner_type)
+  defp returned_fields(%{kind: "NON_NULL"}), do: []
 end
