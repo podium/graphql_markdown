@@ -47,11 +47,11 @@ defmodule GraphqlMarkdown.MixProject do
     [
       main: "readme",
       extras: [
-        "CHANGELOG.md",
         {:"README.md", title: "Readme"},
         {:"LICENSE.md", title: "License"},
         {:"CONTRIBUTING.md", title: "Contributing"},
-        "CODE_OF_CONDUCT.md"
+        "CODE_OF_CONDUCT.md",
+        "CHANGELOG.md"
       ],
       source_url: @project_url,
       source_ref: "v#{@version}",
