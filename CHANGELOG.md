@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2 - 2025-12-30
+
+### Fixed
+
+* Add support for ENUM return types in GraphQL operations
+
 ## 0.5.1 - 2025-03-11
 
 ### Fixed

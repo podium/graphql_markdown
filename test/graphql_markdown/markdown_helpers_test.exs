@@ -219,6 +219,31 @@ defmodule GraphqlMarkdown.MarkdownHelpersTest do
       assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
     end
 
+    test "does not include return fields when the return type is an enum" do
+      operation_details = %{
+        arguments: [%{name: "code", required: true, type: "String"}],
+        operation_name: "authenticateWithCode",
+        operation_type: "mutation",
+        return_type: %{
+          kind: "ENUM",
+          name: "AuthenticationResult",
+          fields: []
+        }
+      }
+
+      expected_text =
+        """
+        ```gql
+        mutation AuthenticateWithCode($code: String!) {
+          authenticateWithCode(code: $code) {
+          }
+        }
+        ```
+        """
+
+      assert MarkdownHelpers.graphql_operation_code_block(operation_details) == expected_text
+    end
+
     test "handles NON_NULL return type by unwrapping to the inner type" do
       operation_details = %{
         arguments: [],
