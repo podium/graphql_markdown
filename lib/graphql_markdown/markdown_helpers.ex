@@ -175,6 +175,8 @@ defmodule GraphqlMarkdown.MarkdownHelpers do
   @spec returned_fields(OperationDetailsHelpers.return_type()) :: String.t()
   defp returned_fields(%{kind: "SCALAR"}), do: ""
 
+  defp returned_fields(%{kind: "ENUM"}), do: ""
+
   defp returned_fields(%{kind: kind} = return_type) when kind in ~w(OBJECT LIST) do
     fields = Map.get(return_type, :fields, [])
 
