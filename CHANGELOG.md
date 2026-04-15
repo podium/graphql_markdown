@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.3 - 2026-04-15
+
+### Fixed
+
+* Fix crash when writing non-ASCII characters (e.g. em dash) to file on systems with non-UTF-8 locale
+
 ## 0.5.2 - 2025-12-30
 
 ### Fixed
