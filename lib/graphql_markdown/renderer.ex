@@ -32,7 +32,7 @@ defmodule GraphqlMarkdown.Renderer do
           %{fileio: :stdio}
 
         filename ->
-          fileio = File.open!(filename, [:write])
+          fileio = File.open!(filename, [:write, :utf8])
           %{fileio: fileio, filename: filename}
       end
 

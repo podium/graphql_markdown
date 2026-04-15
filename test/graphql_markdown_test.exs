@@ -102,5 +102,17 @@ defmodule GraphqlMarkdownTest do
                %Jason.DecodeError{}
              } = GraphqlMarkdown.generate(schema: "test/fixtures/invalid_json_schema.json")
     end
+
+    test "writes non-ASCII characters (em dash) to file without crashing" do
+      assert {:ok, _files} =
+               GraphqlMarkdown.generate(
+                 schema: "test/fixtures/unicode_schema.json",
+                 output_dir: "guides",
+                 multi_page: true
+               )
+
+      content = File.read!("guides/inputs.md")
+      assert content =~ "Invoice UID \u2014 required when job_uid is absent"
+    end
   end
 end
