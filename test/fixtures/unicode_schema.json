@@ -1,0 +1,57 @@
+{
+  "data": {
+    "__schema": {
+      "description": null,
+      "directives": [],
+      "mutationType": null,
+      "queryType": { "name": "RootQueryType" },
+      "subscriptionType": null,
+      "types": [
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": null,
+          "inputFields": [
+            {
+              "defaultValue": null,
+              "description": "Invoice UID \u2014 required when job_uid is absent",
+              "name": "invoiceUid",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "interfaces": null,
+          "kind": "INPUT_OBJECT",
+          "name": "InvoiceInput",
+          "possibleTypes": null
+        },
+        {
+          "description": null,
+          "enumValues": null,
+          "fields": [
+            {
+              "args": [],
+              "deprecationReason": null,
+              "description": "Fetch an invoice",
+              "isDeprecated": false,
+              "name": "invoice",
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              }
+            }
+          ],
+          "inputFields": null,
+          "interfaces": [],
+          "kind": "OBJECT",
+          "name": "RootQueryType",
+          "possibleTypes": null
+        }
+      ]
+    }
+  }
+}
